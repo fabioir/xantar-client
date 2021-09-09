@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 
 import { MealsListComponent } from './meals-list.component';
 
@@ -8,9 +9,8 @@ describe('MealsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MealsListComponent ]
-    })
-    .compileComponents();
+      declarations: [MealsListComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -21,5 +21,10 @@ describe('MealsListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render', () => {
+    const mealsList = fixture.debugElement.query(By.css('p')).nativeElement;
+    expect(mealsList).toBeTruthy();
   });
 });
