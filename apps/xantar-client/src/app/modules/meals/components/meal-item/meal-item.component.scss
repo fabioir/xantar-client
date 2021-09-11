@@ -1,0 +1,36 @@
+:host {
+  height: 56px;
+  background-color: rgba(0, 0, 0, 0.04);
+  display: block;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 5px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.16);
+  }
+
+  .meal-item-container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    .avatar-container {
+      height: 40px;
+      width: 40px;
+      margin: 0 16px 0 8px;
+      overflow: hidden;
+      border-radius: 20px;
+      img {
+        height: 40px;
+        transform: translateX(-21%); //TODO: remove when real avatars come
+      }
+    }
+
+    .meal-info {
+      .meal-description {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.75);
+      }
+    }
+  }
+}

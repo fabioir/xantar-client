@@ -1,6 +1,31 @@
 {
   "version": 1,
   "projects": {
+    "domain": {
+      "projectType": "library",
+      "root": "libs/domain",
+      "sourceRoot": "libs/domain/src",
+      "prefix": "xantar",
+      "architect": {
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/domain"],
+          "options": {
+            "jestConfig": "libs/domain/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/domain/src/**/*.ts",
+              "libs/domain/src/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "xantar-client": {
       "projectType": "application",
       "root": "apps/xantar-client",
@@ -21,7 +46,10 @@
               "apps/xantar-client/src/favicon.ico",
               "apps/xantar-client/src/assets"
             ],
-            "styles": ["apps/xantar-client/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "apps/xantar-client/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
