@@ -6,6 +6,7 @@ import { MealItemComponent } from '../meal-item/meal-item.component';
 import { mockMeal } from './meals-list.mock';
 
 import { MealsListComponent } from './meals-list.component';
+import { ApiService } from '../../../../services/api/api.service';
 
 describe('MealsListComponent', () => {
   let component: MealsListComponent;
@@ -19,6 +20,7 @@ describe('MealsListComponent', () => {
     });
 
     beforeEach(() => {
+      TestBed.inject(ApiService).init();
       fixture = TestBed.createComponent(MealsListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -38,6 +40,7 @@ describe('MealsListComponent', () => {
     });
 
     beforeEach(() => {
+      TestBed.inject(ApiService).init();
       fixture = TestBed.createComponent(MealsListComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
