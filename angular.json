@@ -92,7 +92,8 @@
               "browserTarget": "xantar-client:build:production"
             },
             "development": {
-              "browserTarget": "xantar-client:build:development"
+              "browserTarget": "xantar-client:build:development",
+              "proxyConfig": "apps/xantar-client/src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

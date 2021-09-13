@@ -25,7 +25,18 @@ describe('ApiService', () => {
     ).toBe(true);
   });
 
-  describe('getMealsList()', () => {
-    it.todo('should return a list of meals');
+  describe('getEndpoint()', () => {
+    beforeEach(() => {
+      service.init();
+    });
+
+    it('should return null if the endpoint is not found', () => {
+      expect(service.getEndpoint('Unexisting endpoint')).toBeNull();
+    });
+
+    it('should throw an error if endpoint name is not valid', () => {
+      expect(() => service.getEndpoint(null as unknown as string)).toThrow();
+      expect(() => service.getEndpoint(10 as unknown as string)).toThrow();
+    });
   });
 });

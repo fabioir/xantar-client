@@ -2,8 +2,11 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false,
+import { IXantarEnvironment } from '@xantar/domain/models';
+
+export const environment: IXantarEnvironment = {
+  baseHref: '/api',
+  production: false
 };
 
 /*
