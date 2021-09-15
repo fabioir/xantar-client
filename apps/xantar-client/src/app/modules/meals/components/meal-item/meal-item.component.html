@@ -1,7 +1,7 @@
 
 <div class="meal-item-container">
   <div class="avatar-container">
-    <img matListAvatar [src]="imageUrl" />
+    <img matListAvatar [src]="meal?.imageThumb | b64" />
   </div>
   <div class="meal-info mat-typography">
     <div class="meal-name">
