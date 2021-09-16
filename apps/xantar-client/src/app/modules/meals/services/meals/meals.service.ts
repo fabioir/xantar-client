@@ -1,47 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpMethodEnum, IMealSumup } from '@xantar/domain/models';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiService } from '../../../../services/api/api.service';
-import { mockMeal } from '../../components/meals-list/meals-list.mock';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class MealsService {
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private http: HttpClient) {}
 
   public getMealsList(): Observable<IMealSumup[]> {
     const endpoint = this.api.getEndpoint('meals');
-    const method = HttpMethodEnum.GET;
-    const url = endpoint.getUrlForMethod(method);
+    const url = endpoint.getUrlForMethod(HttpMethodEnum.GET);
 
-    // Make http request to url
-    console.log(`${method + ''} to ${url}`);
-
-    return of([
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal,
-      mockMeal
-    ]);
+    return this.http.get<IMealSumup[]>(url);
   }
 }
