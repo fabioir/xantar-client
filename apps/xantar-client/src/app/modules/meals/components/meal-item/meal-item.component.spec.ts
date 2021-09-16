@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatListModule } from '@angular/material/list';
 import { By } from '@angular/platform-browser';
+import { SharedModule } from '../../../shared/shared.module';
 import { mockMeal } from '../meals-list/meals-list.mock';
 
 import { MealItemComponent } from './meal-item.component';
@@ -13,7 +14,7 @@ describe('MealItemComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealItemComponent],
-        imports: [MatListModule]
+        imports: [MatListModule, SharedModule]
       }).compileComponents();
     });
 
@@ -32,7 +33,7 @@ describe('MealItemComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealItemComponent],
-        imports: [MatListModule]
+        imports: [MatListModule, SharedModule]
       }).compileComponents();
     });
 
