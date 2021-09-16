@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { B64Pipe } from './pipes/b64/b64.pipe';
+import { B64ImgPipe } from './pipes/b64Img/b64Img.pipe';
 
 @NgModule({
-  declarations: [B64Pipe],
-  exports: [B64Pipe]
+  declarations: [B64ImgPipe],
+  exports: [B64ImgPipe]
 })
 export class SharedModule {}
