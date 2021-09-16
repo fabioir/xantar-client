@@ -8,6 +8,7 @@ import { mockMeal } from './meals-list.mock';
 import { MealsListComponent } from './meals-list.component';
 import { ApiService } from '../../../../services/api/api.service';
 import { SharedModule } from '../../../shared/shared.module';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 
 describe('MealsListComponent', () => {
   let component: MealsListComponent;
@@ -16,7 +17,9 @@ describe('MealsListComponent', () => {
   describe('Unit tests', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
-        declarations: [MealsListComponent]
+        declarations: [MealsListComponent, MealItemComponent],
+        imports: [MatListModule, SharedModule],
+        providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
       }).compileComponents();
     });
 
@@ -36,7 +39,8 @@ describe('MealsListComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealsListComponent, MealItemComponent],
-        imports: [MatListModule, SharedModule]
+        imports: [MatListModule, SharedModule],
+        providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
       }).compileComponents();
     });
 

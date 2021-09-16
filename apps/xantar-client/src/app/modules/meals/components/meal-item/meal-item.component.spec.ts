@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { By } from '@angular/platform-browser';
 import { SharedModule } from '../../../shared/shared.module';
@@ -14,7 +15,8 @@ describe('MealItemComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealItemComponent],
-        imports: [MatListModule, SharedModule]
+        imports: [MatListModule, SharedModule],
+        providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
       }).compileComponents();
     });
 
@@ -33,7 +35,8 @@ describe('MealItemComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealItemComponent],
-        imports: [MatListModule, SharedModule]
+        imports: [MatListModule, SharedModule],
+        providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
       }).compileComponents();
     });
 
