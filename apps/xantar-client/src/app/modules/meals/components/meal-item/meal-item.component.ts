@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnChanges
-} from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IMealSumup } from '@xantar/domain/models';
 
 @Component({
@@ -13,17 +7,6 @@ import { IMealSumup } from '@xantar/domain/models';
   styleUrls: ['./meal-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MealItemComponent implements OnChanges {
-  public imageUrl!: SafeUrl;
-
+export class MealItemComponent {
   @Input() meal!: IMealSumup;
-
-  constructor(private sanitizer: DomSanitizer) {}
-
-  ngOnChanges() {
-    //TODO: Make a pipe to manage this logic in the template
-    this.imageUrl = this.sanitizer
-      .bypassSecurityTrustUrl(`data:image/jpeg;base64,
-    ${this.meal.imageThumb}`);
-  }
 }

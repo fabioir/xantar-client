@@ -7,6 +7,7 @@ import { mockMeal } from './meals-list.mock';
 
 import { MealsListComponent } from './meals-list.component';
 import { ApiService } from '../../../../services/api/api.service';
+import { SharedModule } from '../../../shared/shared.module';
 
 describe('MealsListComponent', () => {
   let component: MealsListComponent;
@@ -35,7 +36,7 @@ describe('MealsListComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealsListComponent, MealItemComponent],
-        imports: [MatListModule]
+        imports: [MatListModule, SharedModule]
       }).compileComponents();
     });
 
