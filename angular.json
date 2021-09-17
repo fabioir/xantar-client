@@ -36,6 +36,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/xantar-client",
             "index": "apps/xantar-client/src/index.html",
             "main": "apps/xantar-client/src/main.ts",

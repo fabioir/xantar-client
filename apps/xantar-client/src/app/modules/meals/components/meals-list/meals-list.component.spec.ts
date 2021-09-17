@@ -13,6 +13,18 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
+import { of } from 'rxjs';
+import { IMealSumup } from '@xantar/domain/models';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+const materialModules = [
+  MatButtonModule,
+  MatIconModule,
+  MatTooltipModule,
+  MatListModule
+];
 
 describe('MealsListComponent', () => {
   let component: MealsListComponent;
@@ -48,7 +60,7 @@ describe('MealsListComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealsListComponent, MealItemComponent],
-        imports: [MatListModule, SharedModule, HttpClientTestingModule],
+        imports: [...materialModules, SharedModule, HttpClientTestingModule],
         providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
       }).compileComponents();
     });
@@ -58,10 +70,10 @@ describe('MealsListComponent', () => {
       TestBed.inject(ApiService).init();
       fixture = TestBed.createComponent(MealsListComponent);
       component = fixture.componentInstance;
-      fixture.detectChanges();
     });
 
     it('should render a meal item info', () => {
+      fixture.detectChanges();
       httpTestingController
         .expectOne((req) => req.url === '/api/meals')
         .flush([mockMeal]);
@@ -80,6 +92,24 @@ describe('MealsListComponent', () => {
 
       expect(mealItemDescription).toBeTruthy();
       expect(mealItemDescription.textContent).toBe(mockMeal.description);
+    });
+
+    it('should reload meals on reload button click', () => {
+      const getMealsListSpy = jest
+        .spyOn(component['mealsService'], 'getMealsList')
+        .mockReturnValue(of(null as unknown as IMealSumup[]));
+      fixture.detectChanges();
+
+      expect(getMealsListSpy).toHaveBeenCalledTimes(1);
+
+      const reloadButton = fixture.debugElement.query(
+        By.css('button.reload-button')
+      );
+      expect(reloadButton).toBeTruthy();
+      reloadButton.nativeElement.click();
+
+      expect(getMealsListSpy).toHaveBeenCalledTimes(2);
+      getMealsListSpy.mockRestore();
     });
   });
 });
