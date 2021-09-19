@@ -1,0 +1,8 @@
+<div class="reload-content-container">
+  <div class="reload-content">
+    <span class="message">{{message}}</span>
+    <button class="reload-button" [matTooltip]="tooltip" mat-icon-button [attr.aria-label]="tooltip" (click)="reload.emit()">
+      <mat-icon>{{icon}}</mat-icon>
+    </button>
+  </div>
+</div>

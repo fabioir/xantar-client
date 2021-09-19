@@ -36,6 +36,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "outputs": ["{options.outputPath}"],
           "options": {
+            "aot": true,
             "outputPath": "dist/apps/xantar-client",
             "index": "apps/xantar-client/src/index.html",
             "main": "apps/xantar-client/src/main.ts",
@@ -92,7 +93,8 @@
               "browserTarget": "xantar-client:build:production"
             },
             "development": {
-              "browserTarget": "xantar-client:build:development"
+              "browserTarget": "xantar-client:build:development",
+              "proxyConfig": "apps/xantar-client/src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

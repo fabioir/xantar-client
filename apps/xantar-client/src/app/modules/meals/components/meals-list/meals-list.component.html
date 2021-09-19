@@ -1,3 +1,9 @@
-<mat-list role="list">
-  <xantar-meal-item *ngFor="let meal of meals" [meal]="meal"></xantar-meal-item>
-</mat-list>
+<ng-container *ngIf="meals | async as loadedMeals; else noMeals">
+  <mat-list role="list">
+    <xantar-meal-item *ngFor="let meal of loadedMeals" [meal]="meal"></xantar-meal-item>
+  </mat-list>
+</ng-container>
+
+<ng-template #noMeals>
+  <xantar-reload-content (reload)="reload()" message="Meals list could not be loaded"></xantar-reload-content>
+</ng-template>
