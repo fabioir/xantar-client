@@ -1,0 +1,8 @@
+{
+  "meals": {
+    "error": {
+      "message": "Meals list could not be loaded",
+      "reload_tooltip": "Click to retry"
+    }
+  }
+}

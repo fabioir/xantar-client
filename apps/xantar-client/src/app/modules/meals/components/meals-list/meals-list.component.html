@@ -1,0 +1,18 @@
+<ng-container *ngIf="meals | async as loadedMeals; else noMeals">
+  <mat-list role="list">
+    <xantar-meal-item
+      *ngFor="let meal of loadedMeals"
+      [meal]="meal"
+    ></xantar-meal-item>
+  </mat-list>
+</ng-container>
+
+<ng-template #noMeals>
+  <ng-container *transloco="let t">
+    <xantar-reload-content
+      (reload)="reload()"
+      [message]="t('meals.error.message')"
+      [tooltip]="t('meals.error.reload_tooltip')"
+    ></xantar-reload-content>
+  </ng-container>
+</ng-template>
