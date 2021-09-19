@@ -1,23 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatListModule } from '@angular/material/list';
-import { By } from '@angular/platform-browser';
-import { MealItemComponent } from '../meal-item/meal-item.component';
-
-import { mockMeal } from './meals-list.mock';
-
-import { MealsListComponent } from './meals-list.component';
-import { ApiService } from '../../../../services/api/api.service';
-import { SharedModule } from '../../../shared/shared.module';
-import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { of } from 'rxjs';
-import { IMealSumup } from '@xantar/domain/models';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { By } from '@angular/platform-browser';
+import { IMealSumup } from '@xantar/domain/models';
+import { of } from 'rxjs';
+import { ApiService } from '../../../../services/api/api.service';
+import { getTranslocoModule } from '../../../../transloco-testing.module';
+import { SharedModule } from '../../../shared/shared.module';
+import { MealItemComponent } from '../meal-item/meal-item.component';
+import { MealsListComponent } from './meals-list.component';
+import { mockMeal } from './meals-list.mock';
 
 const materialModules = [
   MatButtonModule,
@@ -39,7 +38,12 @@ describe('MealsListComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealsListComponent, MealItemComponent],
-        imports: [MatListModule, SharedModule, HttpClientTestingModule],
+        imports: [
+          MatListModule,
+          SharedModule,
+          HttpClientTestingModule,
+          getTranslocoModule()
+        ],
         providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
       }).compileComponents();
     });
@@ -60,7 +64,12 @@ describe('MealsListComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         declarations: [MealsListComponent, MealItemComponent],
-        imports: [...materialModules, SharedModule, HttpClientTestingModule],
+        imports: [
+          ...materialModules,
+          SharedModule,
+          HttpClientTestingModule,
+          getTranslocoModule()
+        ],
         providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
       }).compileComponents();
     });

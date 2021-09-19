@@ -1,12 +1,13 @@
+import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslocoService } from '@ngneat/transloco';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { initializeApp } from './application.initializer';
 import { ApiService } from './services/api/api.service';
-import { HttpClientModule } from '@angular/common/http';
+import { TranslocoRootModule } from './transloco-root.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,14 +15,15 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    TranslocoRootModule
   ],
   bootstrap: [AppComponent],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [ApiService],
+      deps: [ApiService, TranslocoService],
       multi: true
     }
   ]
