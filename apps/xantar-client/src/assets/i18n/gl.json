@@ -1,0 +1,8 @@
+{
+  "meals": {
+    "error": {
+      "message": "A lista de comidas non se puido cargar",
+      "reload_tooltip": "Faga click para reintentar"
+    }
+  }
+}
