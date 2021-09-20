@@ -6,6 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { initializeApp } from './application.initializer';
+import { SharedModule } from './modules/shared/shared.module';
 import { ApiService } from './services/api/api.service';
 import { TranslocoRootModule } from './transloco-root.module';
 
@@ -16,7 +17,8 @@ import { TranslocoRootModule } from './transloco-root.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    TranslocoRootModule
+    TranslocoRootModule,
+    SharedModule
   ],
   bootstrap: [AppComponent],
   providers: [
