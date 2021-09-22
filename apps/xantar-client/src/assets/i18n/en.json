@@ -1,8 +1,12 @@
 {
   "meals": {
+    "meals_list": "Meals list",
     "error": {
       "message": "Meals list could not be loaded",
       "reload_tooltip": "Click to retry"
+    },
+    "create": {
+      "add_meal": "Add new meal"
     }
   }
 }

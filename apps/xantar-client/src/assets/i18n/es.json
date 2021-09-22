@@ -1,8 +1,12 @@
 {
   "meals": {
+    "meals_list": "Lista de comidas",
     "error": {
       "message": "No se ha podido cargar la lista de comidas",
       "reload_tooltip": "Haga click para reintentar"
+    },
+    "create": {
+      "add_meal": "Añadir nueva comida"
     }
   }
 }
