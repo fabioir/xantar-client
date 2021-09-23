@@ -48,9 +48,9 @@ export class MealsListComponent implements OnInit, OnDestroy {
 
   private _setAddMealButton() {
     this.subscriptions.add(
-      this.addMealSubject.asObservable().subscribe(() => {
-        console.log('Add meal');
-      })
+      this.addMealSubject
+        .asObservable()
+        .subscribe(this._createNewMeal.bind(this))
     );
 
     const addButtonSettings: IIconButtonSettings = {
@@ -59,5 +59,9 @@ export class MealsListComponent implements OnInit, OnDestroy {
     };
 
     this.toolbarService.addButtonSettings = addButtonSettings;
+  }
+
+  private _createNewMeal() {
+    this.mealsService.addNewMeal();
   }
 }
