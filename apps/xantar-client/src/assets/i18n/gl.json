@@ -6,7 +6,23 @@
       "reload_tooltip": "Faga click para reintentar"
     },
     "create": {
-      "add_meal": "Engadir nova comida"
+      "add_meal": "Engadir nova comida",
+      "name": "Nome",
+      "description": "Descrición",
+      "image": "Subir imaxe",
+      "slots": "Horarios",
+      "attributes": "Atributos"
+    },
+    "slots": {
+      "BREAKFAST": "Desayuno",
+      "SNACK1": "Almorzo",
+      "LUNCH": "Xantar",
+      "SNACK2": "Merenda",
+      "DINNER": "Cea "
     }
+  },
+  "shared": {
+    "cancel": "Cancelar",
+    "create": "Crear"
   }
 }

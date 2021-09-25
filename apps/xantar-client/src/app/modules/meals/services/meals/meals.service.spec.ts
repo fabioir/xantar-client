@@ -7,6 +7,7 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Endpoint } from '@xantar/domain/models';
 import { ApiService } from '../../../../services/api/api.service';
+import { getTranslocoModule } from '../../../../transloco-testing.module';
 import { MealsService } from './meals.service';
 
 describe('MealsService', () => {
@@ -15,7 +16,7 @@ describe('MealsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, MatDialogModule],
+      imports: [HttpClientTestingModule, MatDialogModule, getTranslocoModule()],
       providers: [
         MealsService,
         { provide: ApiService, useValue: { getEndpoint: () => jest.fn() } },

@@ -2,6 +2,9 @@ import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   MatDialog,
@@ -9,7 +12,13 @@ import {
   MatDialogRef
 } from '@angular/material/dialog';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { getTranslocoModule } from '../../../../transloco-testing.module';
 import { CreateMealDialogComponent } from './create-meal-dialog.component';
 
 @Component({
@@ -29,9 +38,24 @@ describe('CreateMealDialogComponent', () => {
   let rootLoader: HarnessLoader;
 
   beforeEach(async () => {
+    const materialModules = [
+      MatListModule,
+      MatButtonModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatIconModule,
+      MatSelectModule,
+      MatChipsModule,
+      MatDialogModule,
+      ReactiveFormsModule
+    ];
     await TestBed.configureTestingModule({
       declarations: [CreateMealDialogComponent, DialogLaunchComponent],
-      imports: [MatDialogModule, BrowserAnimationsModule],
+      imports: [
+        ...materialModules,
+        BrowserAnimationsModule,
+        getTranslocoModule()
+      ],
       providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
     }).compileComponents();
   });

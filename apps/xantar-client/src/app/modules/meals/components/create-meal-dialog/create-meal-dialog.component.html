@@ -1,11 +1,82 @@
 <ng-container *transloco="let t">
-  <div mat-dialog-title>
-    <span>{{ t('meals.create.add_meal') }}</span>
+  <div class="dialog-section mat-typography" mat-dialog-title>
+    <span class="title">{{ t('meals.create.add_meal') }}</span>
   </div>
-  <div mat-dialog-content>
-    This dialog showcases the title, close, content and actions elements.
+  <div class="dialog-section" mat-dialog-content>
+    <form [formGroup]="mealForm">
+      <mat-form-field appearance="fill">
+        <mat-label>{{ t('meals.create.name') }}</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ t('meals.create.description') }}</mat-label>
+        <textarea matInput formControlName="description"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ t('meals.create.slots') }}</mat-label>
+        <mat-select
+          (selectionChange)="slotSelectionChange($event)"
+          formControlName="slots"
+          multiple
+        >
+          <mat-select-trigger>
+            {{ slotsTextValue }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let slot of slotsList" [value]="slot">{{
+            t('meals.slots.' + slot.name)
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ t('meals.create.attributes') }}</mat-label>
+        <mat-chip-list
+          #chipList
+          [attr.aria-label]="t('meals.create.attributes')"
+        >
+          <mat-chip
+            *ngFor="let attr of attributes"
+            selectable="true"
+            removable="true"
+            (removed)="removeAttribute(attr)"
+          >
+            {{ attr }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+          <input
+            [placeholder]="t('meals.create.attributes') + '...'"
+            [matChipInputFor]="chipList"
+            (matChipInputTokenEnd)="addAttr($event)"
+          />
+        </mat-chip-list>
+      </mat-form-field>
+    </form>
   </div>
-  <div mat-dialog-actions>
-    <button mat-button>Close</button>
+  <div class="dialog-section" mat-dialog-actions>
+    <div class="image-upload">
+      <button type="button" mat-raised-button (click)="imageInput.click()">
+        <mat-icon class="upload-image">upload</mat-icon>
+        {{ t('meals.create.image') }}
+      </button>
+      <input
+        hidden
+        (change)="onImageSelected(imageInput)"
+        #imageInput
+        type="file"
+        id="image"
+      />
+    </div>
+    <button (click)="dialogRef.close(null)" mat-button>
+      {{ t('shared.cancel') | uppercase }}
+    </button>
+    <button
+      color="primary"
+      (click)="submit()"
+      [disabled]="!mealForm.valid"
+      mat-button
+    >
+      {{ t('shared.create') | uppercase }}
+    </button>
   </div>
 </ng-container>

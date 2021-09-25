@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TranslocoService } from '@ngneat/transloco';
 import { HttpMethodEnum, IMealSumup } from '@xantar/domain/models';
 import { Observable } from 'rxjs';
 import { ApiService } from '../../../../services/api/api.service';
@@ -11,7 +12,8 @@ export class MealsService {
   constructor(
     private api: ApiService,
     private http: HttpClient,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private translocoService: TranslocoService
   ) {}
 
   public getMealsList(): Observable<IMealSumup[]> {
@@ -22,7 +24,11 @@ export class MealsService {
   }
 
   public addNewMeal() {
-    const dialogRef = this.dialog.open(CreateMealDialogComponent);
+    const dialogRef = this.dialog.open(CreateMealDialogComponent, {
+      panelClass: 'create-meal-dialog',
+      ariaLabel: this.translocoService.translate('meals.create.add_meal'),
+      minWidth: '55%'
+    });
     dialogRef.afterClosed().subscribe(console.log);
   }
 }
