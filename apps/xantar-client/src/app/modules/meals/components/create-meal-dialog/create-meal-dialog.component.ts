@@ -9,6 +9,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { TranslocoService } from '@ngneat/transloco';
 import { IMealSumup, ISlot, slotsList } from '@xantar/domain/models';
+import { EMPTY, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'xantar-create-meal-dialog',
@@ -21,10 +22,11 @@ export class CreateMealDialogComponent {
   public slotsList: ISlot[] = Object.values(slotsList);
   public slotsTextValue = '';
   public attributes: string[] = [];
+
   public mealForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.maxLength(255)]),
     description: new FormControl('', [Validators.maxLength(400)]),
-    image: new FormControl(null),
+    imageThumb: new FormControl(null),
     slots: new FormControl(null),
     attributes: new FormControl(null)
   });
@@ -34,18 +36,21 @@ export class CreateMealDialogComponent {
     private translocoService: TranslocoService
   ) {}
 
-  public onImageSelected(event: { files: FileList | null }) {
+  public onImageSelected(event: { files: FileList | null }): Observable<never> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if (!event || !(event as any).files.length) {
-      return;
+      return EMPTY;
     }
-
+    const subject = new Subject<never>();
     const reader = new FileReader();
     reader.onloadend = () => {
-      this.mealForm.get('image')?.patchValue(reader?.result);
+      this.mealForm.get('imageThumb')?.patchValue(reader?.result);
+      subject.next();
+      subject.complete();
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     reader.readAsDataURL((event as any).files[0] as Blob);
+    return subject.asObservable();
   }
 
   public slotSelectionChange(event: MatSelectChange) {
@@ -87,7 +92,7 @@ export class CreateMealDialogComponent {
     const newMeal: IMealSumup = {
       name: this.mealForm.get('name')?.value,
       description: this.mealForm.get('description')?.value,
-      imageThumb: this.mealForm.get('image')?.value,
+      imageThumb: this.mealForm.get('imageThumb')?.value,
       slots: this.mealForm.get('slots')?.value,
       attributes: this.mealForm.get('attributes')?.value
     } as IMealSumup;
