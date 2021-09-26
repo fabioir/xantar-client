@@ -14,8 +14,8 @@
       "attributes": "Atributos"
     },
     "slots": {
-      "BREAKFAST": "Desayuno",
-      "SNACK1": "Almorzo",
+      "BREAKFAST": "Almorzo",
+      "SNACK1": "Media mañá",
       "LUNCH": "Xantar",
       "SNACK2": "Merenda",
       "DINNER": "Cea "

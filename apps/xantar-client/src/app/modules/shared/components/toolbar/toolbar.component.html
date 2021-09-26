@@ -1,5 +1,5 @@
 <mat-toolbar color="primary" class="xantar-toolbar" *transloco="let t">
-  <span>{{ title }}</span>
+  <span class="toolbar-title">{{ title }}</span>
   <button
     *ngIf="addButtonSettings"
     (click)="addButtonSettings?.clickSubject?.next(true)"
