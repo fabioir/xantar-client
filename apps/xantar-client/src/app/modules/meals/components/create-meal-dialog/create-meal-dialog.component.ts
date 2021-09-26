@@ -92,7 +92,10 @@ export class CreateMealDialogComponent {
     const newMeal: IMealSumup = {
       name: this.mealForm.get('name')?.value,
       description: this.mealForm.get('description')?.value,
-      imageThumb: this.mealForm.get('imageThumb')?.value,
+      imageThumb: this.mealForm
+        .get('imageThumb')
+        ?.value.replace('data:image/jpeg;base64,', '')
+        .trim(),
       slots: this.mealForm.get('slots')?.value,
       attributes: this.mealForm.get('attributes')?.value
     } as IMealSumup;
