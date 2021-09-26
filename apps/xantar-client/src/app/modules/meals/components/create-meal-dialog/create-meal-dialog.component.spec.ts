@@ -1,10 +1,16 @@
-import { HarnessLoader } from '@angular/cdk/testing';
+import { HarnessLoader, TestKey } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonHarness } from '@angular/material/button/testing';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import {
+  MatChipHarness,
+  MatChipInputHarness,
+  MatChipListHarness
+} from '@angular/material/chips/testing';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   MatDialog,
@@ -15,10 +21,13 @@ import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatInputHarness } from '@angular/material/input/testing';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { MatSelectHarness } from '@angular/material/select/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IMealSumup, slotsList } from '@xantar/domain/models';
+import { from } from 'rxjs';
 import { getTranslocoModule } from '../../../../transloco-testing.module';
 import { CreateMealDialogComponent } from './create-meal-dialog.component';
 
@@ -86,6 +95,177 @@ describe('CreateMealDialogComponent', () => {
 
     const dialog = await rootLoader.getHarness(MatDialogHarness);
     expect(dialog).toBeDefined();
+  });
+
+  describe('Mat inputs', () => {
+    let dialogRef: MatDialogRef<CreateMealDialogComponent>;
+    let dialogHarness: MatDialogHarness;
+    let createButtonHarness: MatButtonHarness;
+
+    beforeEach(async () => {
+      dialogRef = component.openCreateMealDialog();
+      dialogHarness = await rootLoader.getHarness(MatDialogHarness);
+      createButtonHarness = await dialogHarness.getHarness(
+        MatButtonHarness.with({ selector: '.create-button' })
+      );
+    });
+
+    it('should show name input', (done) => {
+      from(
+        dialogHarness.getHarness(
+          MatInputHarness.with({ selector: '.name-input' })
+        )
+      ).subscribe((nameInputHarness: MatInputHarness) => {
+        expect(nameInputHarness).toBeTruthy();
+        from(nameInputHarness.setValue('test name')).subscribe(() => {
+          dialogRef.afterClosed().subscribe((mealSumup) => {
+            expect(mealSumup).toBeTruthy();
+            expect(mealSumup.name).toBe('test name');
+            done();
+          });
+          createButtonHarness.click();
+        });
+      });
+    });
+
+    it('should show description input', (done) => {
+      from(
+        dialogHarness.getHarness(
+          MatInputHarness.with({ selector: '.description-input' })
+        )
+      ).subscribe((descriptionInputHarness: MatInputHarness) => {
+        expect(descriptionInputHarness).toBeTruthy();
+        from(descriptionInputHarness.setValue('test description')).subscribe(
+          () => {
+            dialogRef.afterClosed().subscribe((mealSumup) => {
+              expect(mealSumup).toBeTruthy();
+              expect(mealSumup.description).toBe('test description');
+              done();
+            });
+            createButtonHarness.click();
+          }
+        );
+      });
+    });
+
+    it('should show select input', (done) => {
+      from(
+        dialogHarness.getHarness(
+          MatSelectHarness.with({ selector: '.slots-input' })
+        )
+      ).subscribe((selectInputHarness: MatSelectHarness) => {
+        expect(selectInputHarness).toBeTruthy();
+        from(selectInputHarness.clickOptions()).subscribe(() => {
+          dialogRef.afterClosed().subscribe((mealSumup) => {
+            expect(mealSumup).toBeTruthy();
+            expect(JSON.stringify(mealSumup.slots)).toBe(
+              JSON.stringify([
+                { id: 1, name: 'BREAKFAST' },
+                { id: 2, name: 'SNACK1' },
+                { id: 3, name: 'LUNCH' },
+                { id: 4, name: 'SNACK2' },
+                { id: 5, name: 'DINNER' }
+              ])
+            );
+            done();
+          });
+          createButtonHarness.click();
+        });
+      });
+    });
+
+    describe('chips list', () => {
+      it('should show attributes input', (done) => {
+        from(dialogHarness.getHarness(MatChipInputHarness)).subscribe(
+          (attributesInputFieldHarness: MatChipInputHarness) => {
+            from(
+              attributesInputFieldHarness.setValue('test-attribute')
+            ).subscribe(() => {
+              from(
+                attributesInputFieldHarness.sendSeparatorKey(TestKey.ENTER)
+              ).subscribe(() => {
+                from(
+                  dialogHarness.getHarness(
+                    MatChipListHarness.with({ selector: '.attributes-input' })
+                  )
+                ).subscribe((attributesInputHarness: MatChipListHarness) => {
+                  expect(attributesInputHarness).toBeTruthy();
+                  from(attributesInputHarness.getChips()).subscribe(
+                    (chips: MatChipHarness[]) => {
+                      expect(chips?.length).toBe(1);
+                      from(chips[0].getText()).subscribe((chipText) => {
+                        expect(chipText).toBe('test-attribute');
+                        dialogRef.afterClosed().subscribe((mealSumup) => {
+                          expect(mealSumup).toBeTruthy();
+                          expect(JSON.stringify(mealSumup.attributes)).toBe(
+                            JSON.stringify(['test-attribute'])
+                          );
+                          done();
+                        });
+                        createButtonHarness.click();
+                      });
+                    }
+                  );
+                });
+              });
+            });
+          }
+        );
+      });
+
+      it('should delete attributes input', (done) => {
+        from(dialogHarness.getHarness(MatChipInputHarness)).subscribe(
+          (attributesInputFieldHarness: MatChipInputHarness) => {
+            from(
+              attributesInputFieldHarness.setValue('test-attribute')
+            ).subscribe(() => {
+              from(
+                attributesInputFieldHarness.sendSeparatorKey(TestKey.ENTER)
+              ).subscribe(() => {
+                from(
+                  dialogHarness.getHarness(
+                    MatChipListHarness.with({ selector: '.attributes-input' })
+                  )
+                ).subscribe((attributesInputHarness: MatChipListHarness) => {
+                  expect(attributesInputHarness).toBeTruthy();
+                  from(attributesInputHarness.getChips()).subscribe(
+                    (chips: MatChipHarness[]) => {
+                      expect(chips?.length).toBe(1);
+                      from(chips[0].getText()).subscribe((chipText) => {
+                        expect(chipText).toBe('test-attribute');
+
+                        from(chips[0].remove()).subscribe(() => {
+                          dialogRef.afterClosed().subscribe((mealSumup) => {
+                            expect(mealSumup.attributes.length).toBe(0);
+                            done();
+                          });
+                          createButtonHarness.click();
+                        });
+                      });
+                    }
+                  );
+                });
+              });
+            });
+          }
+        );
+      });
+    });
+
+    it('should cancel the creation', (done) => {
+      from(
+        dialogHarness.getHarness(
+          MatButtonHarness.with({ selector: '.cancel-button' })
+        )
+      ).subscribe((cancelButtonHarness: MatButtonHarness) => {
+        expect(cancelButtonHarness).toBeTruthy();
+        dialogRef.afterClosed().subscribe((mealSumup) => {
+          expect(mealSumup).toBeNull();
+          done();
+        });
+        cancelButtonHarness.click();
+      });
+    });
   });
 });
 
