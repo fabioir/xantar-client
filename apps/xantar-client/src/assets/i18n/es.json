@@ -1,8 +1,28 @@
 {
   "meals": {
+    "meals_list": "Lista de comidas",
     "error": {
       "message": "No se ha podido cargar la lista de comidas",
       "reload_tooltip": "Haga click para reintentar"
+    },
+    "create": {
+      "add_meal": "Añadir nueva comida",
+      "name": "Nombre",
+      "description": "Descripción",
+      "image": "Subir imagen",
+      "slots": "Horarios",
+      "attributes": "Atributos"
+    },
+    "slots": {
+      "BREAKFAST": "Desayuno",
+      "SNACK1": "Almuerzo",
+      "LUNCH": "Comida",
+      "SNACK2": "Merienda",
+      "DINNER": "Cena"
     }
+  },
+  "shared": {
+    "cancel": "Cancelar",
+    "create": "Crear"
   }
 }

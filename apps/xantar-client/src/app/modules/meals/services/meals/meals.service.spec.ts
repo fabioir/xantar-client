@@ -1,12 +1,14 @@
-import { TestBed } from '@angular/core/testing';
-import { ApiService } from '../../../../services/api/api.service';
 import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-
-import { MealsService } from './meals.service';
+import { TestBed } from '@angular/core/testing';
+import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { Endpoint } from '@xantar/domain/models';
+import { ApiService } from '../../../../services/api/api.service';
+import { getTranslocoModule } from '../../../../transloco-testing.module';
+import { MealsService } from './meals.service';
 
 describe('MealsService', () => {
   let service: MealsService;
@@ -14,10 +16,11 @@ describe('MealsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, MatDialogModule, getTranslocoModule()],
       providers: [
         MealsService,
-        { provide: ApiService, useValue: { getEndpoint: () => jest.fn() } }
+        { provide: ApiService, useValue: { getEndpoint: () => jest.fn() } },
+        { provide: MATERIAL_SANITY_CHECKS, useValue: false }
       ]
     });
     httpTestingController = TestBed.inject(HttpTestingController);
