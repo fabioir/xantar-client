@@ -29,6 +29,15 @@ export class MealsService {
       ariaLabel: this.translocoService.translate('meals.create.add_meal'),
       minWidth: '55%'
     });
-    dialogRef.afterClosed().subscribe(console.log);
+    dialogRef
+      .afterClosed()
+      .subscribe((newMeal: IMealSumup) => this.createMeal(newMeal).subscribe());
+  }
+
+  public createMeal(newMeal: IMealSumup): Observable<IMealSumup> {
+    const endpoint = this.api.getEndpoint('meals');
+    const url = endpoint.getUrlForMethod(HttpMethodEnum.POST);
+
+    return this.http.post<IMealSumup>(url, newMeal);
   }
 }

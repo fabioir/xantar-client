@@ -7,13 +7,15 @@ import {
 export class MealsEndpoint extends Endpoint {
   constructor(environment: IXantarEnvironment) {
     const mealsUrl = `${environment.baseHref}/meals`;
-    const mealsMethods = [HttpMethodEnum.GET];
+    const mealsMethods = [HttpMethodEnum.GET, HttpMethodEnum.POST];
     super(mealsUrl, mealsMethods);
   }
 
   public getUrlForMethod(method: HttpMethodEnum) {
     switch (method) {
       case HttpMethodEnum.GET:
+        return this.getUrl();
+      case HttpMethodEnum.POST:
         return this.getUrl();
       default:
         return null as unknown as string;

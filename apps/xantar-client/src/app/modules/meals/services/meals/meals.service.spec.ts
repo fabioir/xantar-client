@@ -8,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Endpoint } from '@xantar/domain/models';
 import { ApiService } from '../../../../services/api/api.service';
 import { getTranslocoModule } from '../../../../transloco-testing.module';
+import { mockMeal } from '../../components/meals-list/meals-list.mock';
 import { MealsService } from './meals.service';
 
 describe('MealsService', () => {
@@ -56,6 +57,33 @@ describe('MealsService', () => {
         .expectOne((req) => req.url === '/api/meals')
         .flush(mockMealsList);
       getEndpointSpy.mockClear();
+    });
+  });
+
+  describe('createMeal', () => {
+    it('should create a new meal', (done) => {
+      const mockMealEndpoint = {
+        getUrlForMethod: () => '/api/meals'
+      };
+
+      const createtEndpointSpy = jest
+        .spyOn(service['api'], 'getEndpoint')
+        .mockReturnValueOnce(mockMealEndpoint as unknown as Endpoint);
+
+      service.createMeal(mockMeal).subscribe((meal) => {
+        expect(meal).toEqual(mockMeal);
+        done();
+      });
+
+      httpTestingController
+        .expectOne(
+          (req) =>
+            req.url === '/api/meals' &&
+            req.method === 'POST' &&
+            req.body === mockMeal
+        )
+        .flush(mockMeal);
+      createtEndpointSpy.mockClear();
     });
   });
 });
