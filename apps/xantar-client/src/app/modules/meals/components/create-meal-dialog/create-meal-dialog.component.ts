@@ -94,7 +94,7 @@ export class CreateMealDialogComponent {
       description: this.mealForm.get('description')?.value,
       imageThumb: this.mealForm
         .get('imageThumb')
-        ?.value.replace('data:image/jpeg;base64,', '')
+        ?.value?.replace('data:image/jpeg;base64,', '')
         .trim(),
       slots: this.mealForm.get('slots')?.value,
       attributes: this.mealForm.get('attributes')?.value
