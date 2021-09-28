@@ -19,6 +19,16 @@
       "LUNCH": "Lunch",
       "SNACK2": "Afternoon snack",
       "DINNER": "Dinner"
+    },
+    "delete": {
+      "button_tooltip": "Delete meal",
+      "dialog_label": "Confirm meal deletion dialog",
+      "confirmation": {
+        "title": "Are you sure you want to delete {{meal}}?",
+        "caption": "This action cannot be undone",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
     }
   },
   "shared": {

@@ -1,7 +1,14 @@
-
-<div class="meal-item-container">
+<div
+  class="meal-item-container"
+  (mouseenter)="hovered = true"
+  (mouseleave)="hovered = false"
+>
   <div class="avatar-container">
-    <img matListAvatar alt="Meal picture" [src]="(meal?.imageThumb  | b64Img) || '/assets/pics/default-meal.jpg'" />
+    <img
+      matListAvatar
+      alt="Meal picture"
+      [src]="(meal?.imageThumb | b64Img) || '/assets/pics/default-meal.jpg'"
+    />
   </div>
   <div class="meal-info mat-typography">
     <div class="meal-name">
@@ -10,5 +17,16 @@
     <div class="meal-description">
       <span>{{ meal?.description }}</span>
     </div>
+  </div>
+  <div *ngIf="hovered" class="delete-button-container">
+    <button
+      mat-icon-button
+      color="warn"
+      [attr.aria-label]="deleteTooltip"
+      [matTooltip]="deleteTooltip"
+      (click)="deleteMeal.emit(meal)"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
 </div>

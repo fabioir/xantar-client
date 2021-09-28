@@ -8,6 +8,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import { ReloadContentComponent } from './components/reload-content/reload-content.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { B64ImgPipe } from './pipes/b64Img/b64Img.pipe';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 const materialModules = [
   MatButtonModule,
@@ -17,7 +18,7 @@ const materialModules = [
 ];
 
 @NgModule({
-  declarations: [B64ImgPipe, ReloadContentComponent, ToolbarComponent],
+  declarations: [B64ImgPipe, ReloadContentComponent, ToolbarComponent, ConfirmationDialogComponent],
   imports: [...materialModules, TranslocoModule, CommonModule],
   exports: [B64ImgPipe, ReloadContentComponent, ToolbarComponent]
 })
