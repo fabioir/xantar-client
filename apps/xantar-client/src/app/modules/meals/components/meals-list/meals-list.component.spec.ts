@@ -5,6 +5,7 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -22,7 +23,8 @@ const materialModules = [
   MatButtonModule,
   MatIconModule,
   MatTooltipModule,
-  MatListModule
+  MatListModule,
+  MatDialogModule
 ];
 
 describe('MealsListComponent', () => {
@@ -42,7 +44,8 @@ describe('MealsListComponent', () => {
           MatListModule,
           SharedModule,
           HttpClientTestingModule,
-          getTranslocoModule()
+          getTranslocoModule(),
+          ...materialModules
         ],
         providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
       }).compileComponents();

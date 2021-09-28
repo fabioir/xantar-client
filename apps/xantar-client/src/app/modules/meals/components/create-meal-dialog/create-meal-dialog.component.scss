@@ -1,0 +1,36 @@
+div.create-meal-dialog {
+  mat-dialog-container {
+    padding: 8px;
+    div.dialog-section {
+      margin-left: 16px;
+      &[mat-dialog-title] {
+        height: 64px;
+        span.title {
+          line-height: 45px;
+          font-size: 20px;
+          font-weight: 500;
+        }
+      }
+      &[mat-dialog-content] {
+        mat-form-field {
+          width: 100%;
+        }
+      }
+      &[mat-dialog-actions] {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        button.mat-button {
+          margin-left: 8px;
+        }
+        div.image-upload {
+          margin-right: auto;
+          mat-icon.upload-image {
+            margin-right: 8px;
+            color: rgba(0, 0, 0, 0.5);
+          }
+        }
+      }
+    }
+  }
+}

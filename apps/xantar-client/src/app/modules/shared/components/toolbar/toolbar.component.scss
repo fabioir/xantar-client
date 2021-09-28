@@ -1,0 +1,9 @@
+@import '../../../../../variables.scss';
+
+:host {
+  mat-toolbar.xantar-toolbar {
+    display: flex;
+    justify-content: space-between;
+    height: $toolbar-height;
+  }
+}

@@ -55,8 +55,9 @@ describe('Endpoints relation', () => {
     it('should have methods', () => {
       const mealsMethods = meals.getMethods();
 
-      expect(mealsMethods.length).toBe(1);
+      expect(mealsMethods.length).toBe(2);
       expect(mealsMethods[0]).toBe(HttpMethodEnum.GET);
+      expect(mealsMethods[1]).toBe(HttpMethodEnum.POST);
     });
 
     it('should have url', () => {
@@ -77,15 +78,16 @@ describe('Endpoints relation', () => {
       expect(urlForGet).toBe(`${mockEnvironment.baseHref}/meals`);
     });
 
-    it('should return null for != Get method', () => {
-      let urlForGet = null;
+    it('should return null for != Get|Post method', () => {
+      let url = null;
       for (const method in HttpMethodEnum) {
-        if (method !== HttpMethodEnum.GET + '') {
-          urlForGet = meals.getUrlForMethod(
-            method as unknown as HttpMethodEnum
-          );
+        if (
+          method !== HttpMethodEnum.GET + '' &&
+          method !== HttpMethodEnum.POST + ''
+        ) {
+          url = meals.getUrlForMethod(method as unknown as HttpMethodEnum);
         }
-        expect(urlForGet).toBeNull();
+        expect(url).toBeNull();
       }
     });
   });

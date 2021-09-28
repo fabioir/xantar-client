@@ -1,8 +1,28 @@
 {
   "meals": {
+    "meals_list": "Meals list",
     "error": {
       "message": "Meals list could not be loaded",
       "reload_tooltip": "Click to retry"
+    },
+    "create": {
+      "add_meal": "Add new meal",
+      "name": "Name",
+      "description": "Description",
+      "image": "Upload image",
+      "slots": "Slots",
+      "attributes": "Attributes"
+    },
+    "slots": {
+      "BREAKFAST": "Breakfast",
+      "SNACK1": "Morning snack",
+      "LUNCH": "Lunch",
+      "SNACK2": "Afternoon snack",
+      "DINNER": "Dinner"
     }
+  },
+  "shared": {
+    "cancel": "Cancel",
+    "create": "Create"
   }
 }

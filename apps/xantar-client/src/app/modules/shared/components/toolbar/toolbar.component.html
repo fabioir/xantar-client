@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" class="xantar-toolbar" *transloco="let t">
+  <span class="toolbar-title">{{ title }}</span>
+  <button
+    *ngIf="addButtonSettings"
+    (click)="addButtonSettings?.clickSubject?.next(true)"
+    [matTooltip]="t(addButtonSettings?.tooltip)"
+    mat-icon-button
+    [attr.aria-label]="t(addButtonSettings?.tooltip)"
+    class="create-meal-button"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</mat-toolbar>
