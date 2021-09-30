@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { IIconButtonSettings, IMealSumup } from '@xantar/domain/models';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ToolbarService } from '../../../shared/services/toolbar/toolbar.service';
 import { MealsService } from '../../services/meals/meals.service';
@@ -21,8 +21,10 @@ import { MealsService } from '../../services/meals/meals.service';
 export class MealsListComponent implements OnInit, OnDestroy {
   private subscriptions = new Subscription();
   private addMealSubject = new Subject<boolean>();
+  private meals!: IMealSumup[];
+  private mealsSubject = new Subject<IMealSumup[]>();
 
-  public meals!: Observable<IMealSumup[]>;
+  public meals$ = this.mealsSubject.asObservable();
 
   constructor(
     private mealsService: MealsService,
@@ -31,20 +33,28 @@ export class MealsListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.meals = this.mealsService.getMealsList();
+    this._fetchMeals();
     this._setAddMealButton();
     this.toolbarService.title =
       this.translocoService.translate('meals.meals_list');
+  }
+
+  private _fetchMeals(): void {
+    this.mealsService.getMealsList().subscribe((mealsList) => {
+      this.meals = mealsList;
+      this.mealsSubject.next(this.meals);
+    });
   }
 
   ngOnDestroy() {
     this.addMealSubject.complete();
     this.toolbarService.addButtonSettings = null;
     this.subscriptions.unsubscribe();
+    this.mealsSubject.complete();
   }
 
   public reload() {
-    this.meals = this.mealsService.getMealsList();
+    this._fetchMeals();
   }
 
   public deleteMeal(meal: IMealSumup) {
@@ -55,7 +65,18 @@ export class MealsListComponent implements OnInit, OnDestroy {
   }
 
   public editMeal(meal: IMealSumup) {
-    console.log('Edit meal: ', meal);
+    this.mealsService
+      .editMealWithDialog(meal)
+      .pipe(filter((editedMeal) => !!editedMeal))
+      .subscribe((editedMeal: IMealSumup | null) => {
+        const mealIndex = this.meals.findIndex(
+          (mealItem) => mealItem.id === (editedMeal as IMealSumup).id
+        );
+        if (mealIndex > -1) {
+          this.meals[mealIndex] = editedMeal as IMealSumup;
+          this.mealsSubject.next(this.meals);
+        }
+      });
   }
 
   private _setAddMealButton() {

@@ -97,4 +97,8 @@ export class MealsService {
       mergeMap((res) => of(res === false ? false : true))
     );
   }
+
+  public editMealWithDialog(meal: IMealSumup): Observable<IMealSumup | null> {
+    return of(meal);
+  }
 }

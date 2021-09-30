@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <ng-container *ngIf="meals | async as loadedMeals; else noMeals">
+  <ng-container *ngIf="meals$ | async as loadedMeals; else noMeals">
     <mat-list role="list">
       <xantar-meal-item
         *ngFor="let meal of loadedMeals"
