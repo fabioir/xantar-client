@@ -55,10 +55,11 @@ describe('Endpoints relation', () => {
     it('should have methods', () => {
       const mealsMethods = meals.getMethods();
 
-      expect(mealsMethods.length).toBe(3);
+      expect(mealsMethods.length).toBe(4);
       expect(mealsMethods[0]).toBe(HttpMethodEnum.GET);
       expect(mealsMethods[1]).toBe(HttpMethodEnum.POST);
       expect(mealsMethods[2]).toBe(HttpMethodEnum.DELETE);
+      expect(mealsMethods[3]).toBe(HttpMethodEnum.PATCH);
     });
 
     it('should have url', () => {
@@ -79,13 +80,14 @@ describe('Endpoints relation', () => {
       expect(urlForGet).toBe(`${mockEnvironment.baseHref}/meals`);
     });
 
-    it('should return null for != Get|Post|Delete methods', () => {
+    it('should return null for != Get|Post|Delete|Patch methods', () => {
       let url = null;
       for (const method in HttpMethodEnum) {
         if (
           method !== HttpMethodEnum.GET + '' &&
           method !== HttpMethodEnum.POST + '' &&
-          method !== HttpMethodEnum.DELETE + ''
+          method !== HttpMethodEnum.DELETE + '' &&
+          method !== HttpMethodEnum.PATCH + ''
         ) {
           url = meals.getUrlForMethod(method as unknown as HttpMethodEnum);
         }
@@ -93,12 +95,17 @@ describe('Endpoints relation', () => {
       }
     });
 
-    it('should return a url pointing to a meal for deleting it', () => {
+    it('should return a url pointing to a meal for deleting or editing it', () => {
       const deleteUrl = meals.getUrlForMethod(HttpMethodEnum.DELETE, {
         id: 'mealId'
       });
+      const editUrl = meals.getUrlForMethod(HttpMethodEnum.PATCH, {
+        id: 'mealId'
+      });
       expect(deleteUrl).toBeTruthy();
+      expect(editUrl).toBeTruthy();
       expect(deleteUrl).toBe(meals.getUrl() + '/mealId');
+      expect(editUrl).toBe(meals.getUrl() + '/mealId');
     });
   });
 });

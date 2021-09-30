@@ -15,7 +15,8 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import {
   MatDialog,
   MatDialogModule,
-  MatDialogRef
+  MatDialogRef,
+  MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import { MatDialogHarness } from '@angular/material/dialog/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -151,7 +152,11 @@ describe('CreateMealDialogComponent', () => {
       ],
       providers: [
         { provide: MATERIAL_SANITY_CHECKS, useValue: false },
-        { provide: MatDialogRef, useValue: { close: jest.fn() } }
+        { provide: MatDialogRef, useValue: { close: jest.fn() } },
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: null
+        }
       ]
     }).compileComponents();
   });

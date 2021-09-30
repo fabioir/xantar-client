@@ -10,7 +10,8 @@ export class MealsEndpoint extends Endpoint {
     const mealsMethods = [
       HttpMethodEnum.GET,
       HttpMethodEnum.POST,
-      HttpMethodEnum.DELETE
+      HttpMethodEnum.DELETE,
+      HttpMethodEnum.PATCH
     ];
     super(mealsUrl, mealsMethods);
   }
@@ -19,10 +20,10 @@ export class MealsEndpoint extends Endpoint {
   public getUrlForMethod(method: HttpMethodEnum, props: any = null) {
     switch (method) {
       case HttpMethodEnum.GET:
-        return this.getUrl();
       case HttpMethodEnum.POST:
         return this.getUrl();
       case HttpMethodEnum.DELETE:
+      case HttpMethodEnum.PATCH:
         return `${this.getUrl()}/${props.id}`;
       default:
         return null as unknown as string;

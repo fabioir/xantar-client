@@ -31,11 +31,13 @@
       }
     },
     "edit": {
-      "button_tooltip": "Edit meal"
+      "button_tooltip": "Edit meal",
+      "edit_meal": "Edit {{mealName}}"
     }
   },
   "shared": {
     "cancel": "Cancel",
-    "create": "Create"
+    "create": "Create",
+    "edit": "Edit"
   }
 }

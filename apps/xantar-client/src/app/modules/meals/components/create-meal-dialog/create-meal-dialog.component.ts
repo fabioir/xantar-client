@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Inject,
+  OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 import { TranslocoService } from '@ngneat/transloco';
 import { IMealSumup, ISlot, slotsList } from '@xantar/domain/models';
@@ -18,23 +20,25 @@ import { EMPTY, Observable, Subject } from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateMealDialogComponent {
+export class CreateMealDialogComponent implements OnInit {
   public slotsList: ISlot[] = Object.values(slotsList);
   public slotsTextValue = '';
   public attributes: string[] = [];
 
-  public mealForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(255)]),
-    description: new FormControl('', [Validators.maxLength(400)]),
-    imageThumb: new FormControl(null),
-    slots: new FormControl(null),
-    attributes: new FormControl(null)
-  });
+  public mealForm!: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<CreateMealDialogComponent>,
-    private translocoService: TranslocoService
+    private translocoService: TranslocoService,
+    @Inject(MAT_DIALOG_DATA) public mealToEdit: IMealSumup
   ) {}
+
+  ngOnInit() {
+    if (this.mealToEdit) {
+      this.slotsTextValue = this._getSlotsTextValue(this.mealToEdit.slots);
+    }
+    this.mealForm = this._createForm(this.mealToEdit);
+  }
 
   public onImageSelected(event: { files: FileList | null }): Observable<never> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -54,18 +58,7 @@ export class CreateMealDialogComponent {
   }
 
   public slotSelectionChange(event: MatSelectChange) {
-    if (event.value.length > 0) {
-      this.slotsTextValue = event.value
-        .reduce((acc: string, value: ISlot) => {
-          return (
-            acc +
-            `, ${this.translocoService.translate('meals.slots.' + value.name)}`
-          );
-        }, '')
-        .substr(2);
-    } else {
-      this.slotsTextValue = '';
-    }
+    this.slotsTextValue = this._getSlotsTextValue(event?.value);
   }
 
   public removeAttribute(attr: string) {
@@ -101,5 +94,39 @@ export class CreateMealDialogComponent {
     } as IMealSumup;
 
     this.dialogRef.close(newMeal);
+  }
+
+  public slotsCompare(slot1: ISlot, slot2: ISlot): boolean {
+    return slot1 && slot2 && slot1?.id === slot2?.id;
+  }
+
+  private _getSlotsTextValue(slots: ISlot[]): string {
+    if (slots && slots.length > 0) {
+      return slots
+        .reduce((acc: string, value: ISlot) => {
+          return (
+            acc +
+            `, ${this.translocoService.translate('meals.slots.' + value.name)}`
+          );
+        }, '')
+        .substr(2);
+    } else {
+      return '';
+    }
+  }
+
+  private _createForm(mealToEdit: IMealSumup): FormGroup {
+    return new FormGroup({
+      name: new FormControl(mealToEdit?.name || '', [
+        Validators.required,
+        Validators.maxLength(255)
+      ]),
+      description: new FormControl(mealToEdit?.description || '', [
+        Validators.maxLength(400)
+      ]),
+      imageThumb: new FormControl(mealToEdit?.imageThumb || null),
+      slots: new FormControl(mealToEdit?.slots || null),
+      attributes: new FormControl(mealToEdit?.attributes || null)
+    });
   }
 }
