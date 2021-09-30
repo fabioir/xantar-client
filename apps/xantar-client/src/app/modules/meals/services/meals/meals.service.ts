@@ -71,7 +71,6 @@ export class MealsService {
     });
 
     return dialogRef.afterClosed().pipe(
-      map((result) => !!result),
       mergeMap((confirmed) => {
         if (confirmed) {
           return this.deleteMeal(meal);
@@ -94,7 +93,7 @@ export class MealsService {
         console.error(`Error trying to delete a meal:\n${error?.message}`);
         return of(false);
       }),
-      mergeMap((res) => of(res === false ? false : true))
+      map((result) => result !== false)
     );
   }
 }
