@@ -1,0 +1,21 @@
+<div class="dialog-section mat-typography" mat-dialog-title>
+  <span class="title mat-typography">{{ confirmationDialogData.title }}</span>
+</div>
+<div class="dialog-section" mat-dialog-content>
+  <span class="caption mat-typography">{{
+    confirmationDialogData.caption
+  }}</span>
+</div>
+<div class="dialog-section" mat-dialog-actions>
+  <button class="cancel-button" (click)="dialogRef.close(false)" mat-button>
+    {{ confirmationDialogData.cancel | uppercase }}
+  </button>
+  <button
+    color="warn"
+    (click)="dialogRef.close(true)"
+    class="confirm-button"
+    mat-button
+  >
+    {{ confirmationDialogData.confirm | uppercase }}
+  </button>
+</div>

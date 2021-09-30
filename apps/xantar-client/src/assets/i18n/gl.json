@@ -19,6 +19,16 @@
       "LUNCH": "Xantar",
       "SNACK2": "Merenda",
       "DINNER": "Cea "
+    },
+    "delete": {
+      "button_tooltip": "Eliminar comida",
+      "dialog_label": "Diálogo de confirmación para eliminar comida",
+      "confirmation": {
+        "title": "Seguro que quere eliminar {{meal}}?",
+        "caption": "Esta acción é irreversible",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar"
+      }
     }
   },
   "shared": {

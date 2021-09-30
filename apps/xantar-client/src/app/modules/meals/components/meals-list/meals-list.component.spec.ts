@@ -123,5 +123,41 @@ describe('MealsListComponent', () => {
       expect(getMealsListSpy).toHaveBeenCalledTimes(2);
       getMealsListSpy.mockRestore();
     });
+
+    describe('deleteMeal', () => {
+      it('should call meal deleting and reload', () => {
+        const deleteMealWithDialogSpy = jest
+          .spyOn(component['mealsService'], 'deleteMealWithDialog')
+          .mockImplementation(() => of(true));
+        const reloadSpy = jest
+          .spyOn(component, 'reload')
+          .mockImplementation(jest.fn);
+
+        component.deleteMeal(mockMeal);
+
+        expect(deleteMealWithDialogSpy).toHaveBeenCalledWith(mockMeal);
+        expect(reloadSpy).toHaveBeenCalled();
+
+        deleteMealWithDialogSpy.mockClear();
+        reloadSpy.mockClear();
+      });
+
+      it('should call meal deleting and not reload if delete fails', () => {
+        const deleteMealWithDialogSpy = jest
+          .spyOn(component['mealsService'], 'deleteMealWithDialog')
+          .mockImplementation(() => of(false));
+        const reloadSpy = jest
+          .spyOn(component, 'reload')
+          .mockImplementation(jest.fn);
+
+        component.deleteMeal(mockMeal);
+
+        expect(deleteMealWithDialogSpy).toHaveBeenCalledWith(mockMeal);
+        expect(reloadSpy).not.toHaveBeenCalled();
+
+        deleteMealWithDialogSpy.mockClear();
+        reloadSpy.mockClear();
+      });
+    });
   });
 });

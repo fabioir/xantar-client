@@ -1,0 +1,25 @@
+div.delete-meal-dialog {
+  mat-dialog-container {
+    padding: 8px;
+    div.dialog-section {
+      margin-left: 16px;
+      margin-right: 8px;
+      &[mat-dialog-title] {
+        height: 64px;
+        span.title {
+          line-height: 45px;
+          font-size: 20px;
+          font-weight: 500;
+        }
+      }
+      &[mat-dialog-actions] {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        button.mat-button {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+}

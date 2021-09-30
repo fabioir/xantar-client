@@ -7,6 +7,7 @@ import {
 import { TranslocoService } from '@ngneat/transloco';
 import { IIconButtonSettings, IMealSumup } from '@xantar/domain/models';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ToolbarService } from '../../../shared/services/toolbar/toolbar.service';
 import { MealsService } from '../../services/meals/meals.service';
 
@@ -44,6 +45,13 @@ export class MealsListComponent implements OnInit, OnDestroy {
 
   public reload() {
     this.meals = this.mealsService.getMealsList();
+  }
+
+  public deleteMeal(meal: IMealSumup) {
+    this.mealsService
+      .deleteMealWithDialog(meal)
+      .pipe(filter((deleteSuccessful: boolean) => deleteSuccessful))
+      .subscribe(this.reload.bind(this));
   }
 
   private _setAddMealButton() {

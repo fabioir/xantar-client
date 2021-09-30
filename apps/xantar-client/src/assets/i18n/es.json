@@ -19,6 +19,16 @@
       "LUNCH": "Comida",
       "SNACK2": "Merienda",
       "DINNER": "Cena"
+    },
+    "delete": {
+      "button_tooltip": "Eliminar comida",
+      "dialog_label": "Diálogo de confirmación para eliminar comida",
+      "confirmation": {
+        "title": "¿Seguro que quiere eliminar {{meal}}?",
+        "caption": "Esta acción es irreversible",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar"
+      }
     }
   },
   "shared": {

@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoModule } from '@ngneat/transloco';
 import { SharedModule } from '../shared/shared.module';
 import { CreateMealDialogComponent } from './components/create-meal-dialog/create-meal-dialog.component';
@@ -22,7 +23,8 @@ const materialModules = [
   MatInputModule,
   MatIconModule,
   MatSelectModule,
-  MatChipsModule
+  MatChipsModule,
+  MatTooltipModule
 ];
 
 @NgModule({
