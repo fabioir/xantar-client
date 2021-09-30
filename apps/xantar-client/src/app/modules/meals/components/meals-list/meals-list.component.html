@@ -4,8 +4,12 @@
       <xantar-meal-item
         *ngFor="let meal of loadedMeals"
         [meal]="meal"
-        [deleteTooltip]="t('meals.delete.button_tooltip')"
+        [tooltips]="{
+          delete: t('meals.delete.button_tooltip'),
+          edit: t('meals.edit.button_tooltip')
+        }"
         (deleteMeal)="deleteMeal($event)"
+        (editMeal)="editMeal($event)"
       ></xantar-meal-item>
     </mat-list>
   </ng-container>

@@ -54,6 +54,10 @@ export class MealsListComponent implements OnInit, OnDestroy {
       .subscribe(this.reload.bind(this));
   }
 
+  public editMeal(meal: IMealSumup) {
+    console.log('Edit meal: ', meal);
+  }
+
   private _setAddMealButton() {
     this.subscriptions.add(
       this.addMealSubject

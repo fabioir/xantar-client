@@ -29,6 +29,9 @@
         "cancel": "Cancelar",
         "confirm": "Confirmar"
       }
+    },
+    "edit": {
+      "button_tooltip": "Editar comida"
     }
   },
   "shared": {

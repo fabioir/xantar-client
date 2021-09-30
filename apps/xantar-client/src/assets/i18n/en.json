@@ -29,6 +29,9 @@
         "cancel": "Cancel",
         "confirm": "Confirm"
       }
+    },
+    "edit": {
+      "button_tooltip": "Edit meal"
     }
   },
   "shared": {

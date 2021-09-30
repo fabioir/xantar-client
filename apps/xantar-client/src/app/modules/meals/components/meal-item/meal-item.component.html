@@ -18,12 +18,23 @@
       <span>{{ meal?.description }}</span>
     </div>
   </div>
-  <div *ngIf="hovered" class="delete-button-container">
+  <div *ngIf="hovered" class="meal-item-buttons-container">
     <button
       mat-icon-button
+      class="edit-button"
+      color="primary"
+      [attr.aria-label]="tooltips.edit"
+      [matTooltip]="tooltips.edit"
+      (click)="editMeal.emit(meal)"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      class="delete-button"
       color="warn"
-      [attr.aria-label]="deleteTooltip"
-      [matTooltip]="deleteTooltip"
+      [attr.aria-label]="tooltips.delete"
+      [matTooltip]="tooltips.delete"
       (click)="deleteMeal.emit(meal)"
     >
       <mat-icon>delete</mat-icon>
