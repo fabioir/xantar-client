@@ -27,9 +27,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { IMealSumup, slotsList } from '@xantar/domain/models';
+import { IMealSumup, ISlot, slotsList } from '@xantar/domain/models';
 import { from } from 'rxjs';
 import { getTranslocoModule } from '../../../../transloco-testing.module';
+import { mockMeal } from '../meals-list/meals-list.mock';
 import { CreateMealDialogComponent } from './create-meal-dialog.component';
 
 @Component({
@@ -295,6 +296,92 @@ describe('CreateMealDialogComponent', () => {
         component.submit();
 
         expect(closeSpy).toHaveBeenCalledWith(mockMealSumup);
+      });
+    });
+
+    describe('_createForm', () => {
+      it('should create a form group for a meal creation', () => {
+        const form = component['_createForm'](null as unknown as IMealSumup);
+
+        expect(form).toBeTruthy();
+        expect(form.get('name')?.value).toBe('');
+        expect(form.get('description')?.value).toBe('');
+        expect(form.get('imageThumb')?.value).toBeNull();
+        expect(form.get('slots')?.value).toBeNull();
+        expect(form.get('attributes')?.value).toBeNull();
+      });
+
+      it('should create a form with the values from a meal to edit', () => {
+        const form = component['_createForm'](mockMeal);
+
+        expect(form).toBeTruthy();
+        expect(form.get('name')?.value).toBe(mockMeal.name);
+        expect(form.get('description')?.value).toBe(mockMeal.description);
+        expect(form.get('imageThumb')?.value).toBe(mockMeal.imageThumb);
+        expect(form.get('slots')?.value).toStrictEqual(mockMeal.slots);
+        expect(form.get('attributes')?.value).toStrictEqual(
+          mockMeal.attributes
+        );
+      });
+    });
+
+    describe('_getSlotsTextValue', () => {
+      it('should concatenate slots readaable names', () => {
+        const text = component['_getSlotsTextValue']([
+          slotsList.breakfast,
+          slotsList.dinner
+        ]);
+
+        expect(text).toBe('meals.slots.BREAKFAST, meals.slots.DINNER');
+      });
+
+      it('should return "" on empty slots list or falsy value', () => {
+        expect(component['_getSlotsTextValue']([])).toBe('');
+        expect(
+          component['_getSlotsTextValue'](undefined as unknown as ISlot[])
+        ).toBe('');
+      });
+    });
+
+    describe('slotsCompare', () => {
+      it('should return true for slots with the same id', () => {
+        const equalSlots = component.slotsCompare(
+          { id: 0, name: 'slot1' },
+          { id: 0, name: 'slot2' }
+        );
+        expect(equalSlots).toBe(true);
+      });
+      it('should return false for defined slots with different id', () => {
+        expect(
+          component.slotsCompare(
+            { id: 0, name: 'same name' },
+            { id: 1, name: 'same name' }
+          )
+        ).toBe(false);
+        expect(
+          component.slotsCompare(
+            { id: undefined as unknown as number, name: 'same name' },
+            { id: 1, name: 'same name' }
+          )
+        ).toBe(false);
+        expect(
+          component.slotsCompare(
+            { id: undefined as unknown as number, name: 'same name' },
+            { id: undefined as unknown as number, name: 'same name' }
+          )
+        ).toBe(false);
+        expect(
+          component.slotsCompare(null as unknown as ISlot, {
+            id: 1,
+            name: 'same name'
+          })
+        ).toBe(false);
+        expect(
+          component.slotsCompare(
+            null as unknown as ISlot,
+            null as unknown as ISlot
+          )
+        ).toBe(false);
       });
     });
   });

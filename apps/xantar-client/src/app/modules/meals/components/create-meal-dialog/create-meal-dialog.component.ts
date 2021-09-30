@@ -36,6 +36,11 @@ export class CreateMealDialogComponent implements OnInit {
   ngOnInit() {
     if (this.mealToEdit) {
       this.slotsTextValue = this._getSlotsTextValue(this.mealToEdit.slots);
+      if (this.mealToEdit.attributes?.length) {
+        for (const attr of this.mealToEdit.attributes) {
+          this.addAttr({ value: attr } as MatChipInputEvent);
+        }
+      }
     }
     this.mealForm = this._createForm(this.mealToEdit);
   }
@@ -97,7 +102,24 @@ export class CreateMealDialogComponent implements OnInit {
   }
 
   public slotsCompare(slot1: ISlot, slot2: ISlot): boolean {
-    return slot1 && slot2 && slot1?.id === slot2?.id;
+    if (!slot1 || !slot2) {
+      return false;
+    }
+    if (
+      slot1.id === undefined ||
+      slot1.id === null ||
+      slot1.id === ('' as unknown as number)
+    ) {
+      return false;
+    }
+    if (
+      slot2.id === undefined ||
+      slot2.id === null ||
+      slot2.id === ('' as unknown as number)
+    ) {
+      return false;
+    }
+    return slot1?.id === slot2?.id;
   }
 
   private _getSlotsTextValue(slots: ISlot[]): string {
