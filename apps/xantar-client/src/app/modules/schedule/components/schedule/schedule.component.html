@@ -1,1 +1,20 @@
-<p>schedule works!</p>
+<ng-container *transloco="let t">
+  <div
+    *ngIf="schedule$ | async as schedule; else noSchedule"
+    class="days-container"
+  >
+    <div class="day-column" *ngFor="let day of schedule?.days">
+      <div class="day-header">
+        <span class="mat-typography">{{ day?.timestamp | date: 'EEEE' }}</span>
+      </div>
+      <xantar-day [day]="day"></xantar-day>
+    </div>
+  </div>
+  <ng-template #noSchedule>
+    <xantar-reload-content
+      (reload)="fetchSchedule()"
+      [message]="t('schedule.error.message')"
+      [tooltip]="t('schedule.error.reload_tooltip')"
+    ></xantar-reload-content>
+  </ng-template>
+</ng-container>

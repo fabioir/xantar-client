@@ -1,0 +1,10 @@
+<mat-grid-list *ngIf="tiles?.length; else noTile" [cols]="1" rowHeight="20%">
+  <mat-grid-tile
+    *ngFor="let tile of tiles"
+    [colspan]="tile?.cols"
+    [rowspan]="tile?.rows"
+  >
+    <xantar-tile [tile]="tile"></xantar-tile>
+  </mat-grid-tile>
+</mat-grid-list>
+<ng-template #noTile>No tile</ng-template>
