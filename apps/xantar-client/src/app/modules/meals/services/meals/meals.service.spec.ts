@@ -275,26 +275,6 @@ describe('MealsService', () => {
           done();
         });
       });
-
-      it('should open a create meal dialog to edit the meal and return null if cancelled', (done) => {
-        const openDialogSpy = jest
-          .spyOn(service['dialog'], 'open')
-          .mockImplementation(() => {
-            return {
-              afterClosed: () => of(null)
-            } as unknown as MatDialogRef<CreateMealDialogComponent>;
-          });
-
-        service.editMealWithDialog(mockMeal).subscribe((res) => {
-          expect(res).toBeNull();
-          expect(editMealSpy).not.toHaveBeenCalled();
-          expect(openDialogSpy).toHaveBeenCalledWith(
-            CreateMealDialogComponent,
-            expectedDialogOptions
-          );
-          done();
-        });
-      });
     });
 
     describe('editMeal', () => {
