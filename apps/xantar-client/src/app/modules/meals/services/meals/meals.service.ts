@@ -114,12 +114,7 @@ export class MealsService {
           return of(null);
         }
 
-        return this.editMeal(editedMeal, meal.id).pipe(
-          catchError((error) => {
-            console.error(error);
-            return of(null);
-          })
-        );
+        return this.editMeal(editedMeal, meal.id);
       })
     );
   }
