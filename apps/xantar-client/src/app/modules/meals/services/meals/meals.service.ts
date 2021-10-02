@@ -126,7 +126,7 @@ export class MealsService {
       { id }
     );
 
-    return this.http.patch<IMealSumup>(url, { meal }).pipe(
+    return this.http.patch<IMealSumup>(url, { ...meal }).pipe(
       catchError((error) => {
         console.error(`Error trying to edit a meal:\n${error?.message}`);
         return of(null);

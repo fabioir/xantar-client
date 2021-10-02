@@ -298,10 +298,15 @@ describe('MealsService', () => {
         });
 
         httpTestingController
-          .expectOne(
-            (req) =>
-              req.url === `/api/meals/${mockMeal.id}` && req.method === 'PATCH'
-          )
+          .expectOne((req) => {
+            if (
+              req.url === `/api/meals/${mockMeal.id}` &&
+              req.method === 'PATCH'
+            ) {
+              return JSON.stringify(req.body) === JSON.stringify(editedMeal);
+            }
+            return false;
+          })
           .flush(editedMeal);
       });
 
@@ -319,10 +324,15 @@ describe('MealsService', () => {
         });
 
         httpTestingController
-          .expectOne(
-            (req) =>
-              req.url === `/api/meals/${mockMeal.id}` && req.method === 'PATCH'
-          )
+          .expectOne((req) => {
+            if (
+              req.url === `/api/meals/${mockMeal.id}` &&
+              req.method === 'PATCH'
+            ) {
+              return JSON.stringify(req.body) === JSON.stringify(editedMeal);
+            }
+            return false;
+          })
           .error(
             new ErrorEvent(`Meal with id ${mockMeal.id} could not be edited.`),
             { status: 404 }
