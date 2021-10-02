@@ -38,6 +38,7 @@
   },
   "schedule": {
     "navigate": "Ir á planificación",
+    "title": "Planificación",
     "error": {
       "message": "A planificación non se puido cargar",
       "reload_tooltip": "Faga click para reintentar"
