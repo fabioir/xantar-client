@@ -90,33 +90,39 @@ describe('ToolbarComponent', () => {
       fixture.detectChanges();
     });
     it('should navigate to schedule, show go to meals list anchor and hide schedule button', async () => {
-      const toScheduleButtonHarness = await rootLoader.getHarness(
-        MatButtonHarness.with({ selector: '.schedule-anchor' })
-      );
-      expect(toScheduleButtonHarness).toBeTruthy();
-      await toScheduleButtonHarness.click();
-
-      const anchorButtons = await rootLoader.getAllHarnesses(
-        MatButtonHarness.with({ selector: 'a' })
-      );
-      expect(anchorButtons.length).toBe(1);
-      const anchorButtonText = await anchorButtons[0].getText();
-      expect(anchorButtonText).toBe('format_list_bulleted');
+      expect(
+        await testToolbarAnchors(rootLoader, '.meals-list-anchor', 'restaurant')
+      ).toBeTruthy();
     });
 
     it('should navigate to meals list, show go to schedule anchor and hide meals list button', async () => {
-      const toScheduleButtonHarness = await rootLoader.getHarness(
-        MatButtonHarness.with({ selector: '.meals-list-anchor' })
-      );
-      expect(toScheduleButtonHarness).toBeTruthy();
-      await toScheduleButtonHarness.click();
-
-      const anchorButtons = await rootLoader.getAllHarnesses(
-        MatButtonHarness.with({ selector: 'a' })
-      );
-      expect(anchorButtons.length).toBe(1);
-      const anchorButtonText = await anchorButtons[0].getText();
-      expect(anchorButtonText).toBe('restaurant');
+      expect(
+        await testToolbarAnchors(
+          rootLoader,
+          '.schedule-anchor',
+          'format_list_bulleted'
+        )
+      ).toBeTruthy();
     });
   });
 });
+
+async function testToolbarAnchors(
+  rootLoader: HarnessLoader,
+  anchorClass: string,
+  anchorText: string
+): Promise<boolean> {
+  const toScheduleButtonHarness = await rootLoader.getHarness(
+    MatButtonHarness.with({ selector: anchorClass })
+  );
+  expect(toScheduleButtonHarness).toBeTruthy();
+  await toScheduleButtonHarness.click();
+
+  const anchorButtons = await rootLoader.getAllHarnesses(
+    MatButtonHarness.with({ selector: 'a' })
+  );
+  expect(anchorButtons.length).toBe(1);
+  const anchorButtonText = await anchorButtons[0].getText();
+  expect(anchorButtonText).toBe(anchorText);
+  return new Promise((resolve) => resolve(true));
+}
