@@ -17,7 +17,8 @@ export class MealItemComponent {
   public hovered = false;
 
   @Input() meal!: IMealSumup;
-  @Input() deleteTooltip = 'Delete meal';
+  @Input() tooltips = { delete: 'Delete meal', edit: 'Edit meal' };
 
   @Output() deleteMeal: EventEmitter<IMealSumup> = new EventEmitter();
+  @Output() editMeal: EventEmitter<IMealSumup> = new EventEmitter();
 }

@@ -2,7 +2,12 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flushMicrotasks,
+  TestBed
+} from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -158,6 +163,76 @@ describe('MealsListComponent', () => {
         deleteMealWithDialogSpy.mockClear();
         reloadSpy.mockClear();
       });
+    });
+
+    describe('editMeal', () => {
+      beforeEach(() => {
+        fixture.detectChanges();
+        httpTestingController
+          .expectOne((req) => req.url === '/api/meals')
+          .flush([mockMeal]);
+        fixture.detectChanges();
+      });
+
+      it('should edit a meal and update the meal-item', fakeAsync(() => {
+        const editedMeal: IMealSumup = { ...mockMeal, name: 'Edited name' };
+        const editMealWithDialogSpy = jest
+          .spyOn(component['mealsService'], 'editMealWithDialog')
+          .mockImplementation(() => of(editedMeal));
+
+        component.editMeal(mockMeal);
+
+        flushMicrotasks();
+
+        expect(editMealWithDialogSpy).toHaveBeenCalledWith(mockMeal);
+        expect(component['meals']).toBeTruthy();
+        expect(component['meals'].length).toBe(1);
+        expect(component['meals'][0]).toStrictEqual(editedMeal);
+
+        editMealWithDialogSpy.mockRestore();
+      }));
+
+      it('should edit a meal and not update the meal-item if not found', fakeAsync(() => {
+        const editedMeal: IMealSumup = {
+          ...mockMeal,
+          id: 'id not found in meals list'
+        };
+        const editMealWithDialogSpy = jest
+          .spyOn(component['mealsService'], 'editMealWithDialog')
+          .mockImplementation(() => of(editedMeal));
+
+        component.editMeal(mockMeal);
+
+        flushMicrotasks();
+
+        expect(editMealWithDialogSpy).toHaveBeenCalledWith(mockMeal);
+        expect(component['meals']).toBeTruthy();
+        expect(component['meals'].length).toBe(1);
+        expect(component['meals'][0]).not.toStrictEqual(editedMeal);
+
+        editMealWithDialogSpy.mockRestore();
+      }));
+
+      it('should edit a meal and not update the return value is falsy found', fakeAsync(() => {
+        const editedMeal: IMealSumup = {
+          ...mockMeal,
+          name: 'Edited name'
+        };
+        const editMealWithDialogSpy = jest
+          .spyOn(component['mealsService'], 'editMealWithDialog')
+          .mockImplementation(() => of(null));
+
+        component.editMeal(mockMeal);
+
+        flushMicrotasks();
+
+        expect(editMealWithDialogSpy).toHaveBeenCalledWith(mockMeal);
+        expect(component['meals']).toBeTruthy();
+        expect(component['meals'].length).toBe(1);
+        expect(component['meals'][0]).not.toStrictEqual(editedMeal);
+
+        editMealWithDialogSpy.mockRestore();
+      }));
     });
   });
 });

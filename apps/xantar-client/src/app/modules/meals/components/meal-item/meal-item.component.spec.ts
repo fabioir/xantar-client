@@ -83,7 +83,9 @@ describe('MealItemComponent', () => {
       );
       mealItemContainer.triggerEventHandler('mouseenter', {});
 
-      const matButtonHarness = await rootLoader.getHarness(MatButtonHarness);
+      const matButtonHarness = await rootLoader.getHarness(
+        MatButtonHarness.with({ selector: '.delete-button' })
+      );
       expect(matButtonHarness).toBeTruthy();
       expect(await matButtonHarness.getText()).toBe('delete');
     });
@@ -95,7 +97,9 @@ describe('MealItemComponent', () => {
       );
       mealItemContainer.triggerEventHandler('mouseenter', {});
 
-      const matButtonHarness = await rootLoader.getHarness(MatButtonHarness);
+      const matButtonHarness = await rootLoader.getHarness(
+        MatButtonHarness.with({ selector: '.delete-button' })
+      );
       expect(matButtonHarness).toBeTruthy();
 
       expect(deleteMealEmitterSpy).not.toHaveBeenCalled();
@@ -103,6 +107,38 @@ describe('MealItemComponent', () => {
       expect(deleteMealEmitterSpy).toHaveBeenCalledWith(mockMeal);
 
       deleteMealEmitterSpy.mockClear();
+    });
+
+    it('should show edit button on mousenter', async () => {
+      const mealItemContainer = fixture.debugElement.query(
+        By.css('.meal-item-container')
+      );
+      mealItemContainer.triggerEventHandler('mouseenter', {});
+
+      const matButtonHarness = await rootLoader.getHarness(
+        MatButtonHarness.with({ selector: '.edit-button' })
+      );
+      expect(matButtonHarness).toBeTruthy();
+      expect(await matButtonHarness.getText()).toBe('edit');
+    });
+
+    it('should trigger edit event', async () => {
+      const editMealEmitterSpy = jest.spyOn(component.editMeal, 'emit');
+      const mealItemContainer = fixture.debugElement.query(
+        By.css('.meal-item-container')
+      );
+      mealItemContainer.triggerEventHandler('mouseenter', {});
+
+      const matButtonHarness = await rootLoader.getHarness(
+        MatButtonHarness.with({ selector: '.edit-button' })
+      );
+      expect(matButtonHarness).toBeTruthy();
+
+      expect(editMealEmitterSpy).not.toHaveBeenCalled();
+      await matButtonHarness.click();
+      expect(editMealEmitterSpy).toHaveBeenCalledWith(mockMeal);
+
+      editMealEmitterSpy.mockClear();
     });
   });
 });

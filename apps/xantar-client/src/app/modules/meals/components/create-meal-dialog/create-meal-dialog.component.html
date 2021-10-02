@@ -1,6 +1,10 @@
 <ng-container *transloco="let t">
   <div class="dialog-section mat-typography" mat-dialog-title>
-    <span class="title">{{ t('meals.create.add_meal') }}</span>
+    <span class="title">{{
+      mealToEdit
+        ? t('meals.edit.edit_meal', { mealName: mealToEdit.name })
+        : t('meals.create.add_meal')
+    }}</span>
   </div>
   <div class="dialog-section" mat-dialog-content>
     <form [formGroup]="mealForm">
@@ -20,6 +24,7 @@
         <mat-label>{{ t('meals.create.slots') }}</mat-label>
         <mat-select
           (selectionChange)="slotSelectionChange($event)"
+          [compareWith]="slotsCompare"
           formControlName="slots"
           multiple
           class="slots-input"
@@ -83,7 +88,11 @@
       class="create-button"
       mat-button
     >
-      {{ t('shared.create') | uppercase }}
+      {{
+        mealToEdit
+          ? (t('shared.edit') | uppercase)
+          : (t('shared.create') | uppercase)
+      }}
     </button>
   </div>
 </ng-container>

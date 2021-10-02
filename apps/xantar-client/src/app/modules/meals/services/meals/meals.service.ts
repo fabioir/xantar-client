@@ -8,7 +8,7 @@ import {
   IMealSumup
 } from '@xantar/domain/models';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { ApiService } from '../../../../services/api/api.service';
 import { MealsEndpoint } from '../../../../services/api/endpoints.relation';
 import { ConfirmationDialogComponent } from '../../../shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -94,6 +94,43 @@ export class MealsService {
         return of(false);
       }),
       map((result) => result !== false)
+    );
+  }
+
+  public editMealWithDialog(meal: IMealSumup): Observable<IMealSumup | null> {
+    const dialogRef = this.dialog.open(CreateMealDialogComponent, {
+      panelClass: 'create-meal-dialog',
+      ariaLabel: this.translocoService.translate('meals.create.add_meal'),
+      minWidth: '55%',
+      data: meal
+    });
+
+    return dialogRef.afterClosed().pipe(
+      switchMap((editedMeal: IMealSumup) => {
+        if (
+          !editedMeal ||
+          JSON.stringify(meal) === JSON.stringify(editedMeal)
+        ) {
+          return of(null);
+        }
+
+        return this.editMeal(editedMeal, meal.id);
+      })
+    );
+  }
+
+  public editMeal(meal: IMealSumup, id: string): Observable<IMealSumup | null> {
+    const endpoint = this.api.getEndpoint('meals');
+    const url = (endpoint as MealsEndpoint).getUrlForMethod(
+      HttpMethodEnum.PATCH,
+      { id }
+    );
+
+    return this.http.patch<IMealSumup>(url, { ...meal }).pipe(
+      catchError((error) => {
+        console.error(`Error trying to edit a meal:\n${error?.message}`);
+        return of(null);
+      })
     );
   }
 }

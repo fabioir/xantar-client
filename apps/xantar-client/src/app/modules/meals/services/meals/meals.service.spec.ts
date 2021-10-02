@@ -17,6 +17,7 @@ import { MealsService } from './meals.service';
 describe('MealsService', () => {
   let service: MealsService;
   let httpTestingController: HttpTestingController;
+  let openDialogSpy: jest.SpyInstance;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,9 +30,17 @@ describe('MealsService', () => {
     });
     httpTestingController = TestBed.inject(HttpTestingController);
     service = TestBed.inject(MealsService);
+    openDialogSpy = jest
+      .spyOn(service['dialog'], 'open')
+      .mockImplementation(() => {
+        return {
+          afterClosed: () => of(mockMeal)
+        } as unknown as MatDialogRef<CreateMealDialogComponent>;
+      });
   });
 
   afterEach(() => {
+    openDialogSpy.mockRestore();
     httpTestingController.verify();
   });
 
@@ -68,13 +77,6 @@ describe('MealsService', () => {
       const createMealSpy = jest
         .spyOn(service, 'createMeal')
         .mockImplementation(() => of(mockMeal));
-      const openDialogSpy = jest
-        .spyOn(service['dialog'], 'open')
-        .mockImplementation(() => {
-          return {
-            afterClosed: () => of(mockMeal)
-          } as unknown as MatDialogRef<CreateMealDialogComponent>;
-        });
 
       service.addNewMeal();
 
@@ -86,7 +88,6 @@ describe('MealsService', () => {
       expect(createMealSpy).toHaveBeenCalledWith(mockMeal);
 
       createMealSpy.mockRestore();
-      openDialogSpy.mockRestore();
     });
     it('should create a new meal', (done) => {
       const mockMealEndpoint = {
@@ -116,33 +117,31 @@ describe('MealsService', () => {
 
   describe('Delete Meal', () => {
     describe('deleteMealWithDialog', () => {
+      const expectedDialogOptions = {
+        panelClass: 'delete-meal-dialog',
+        ariaLabel: 'meals.delete.dialog_label',
+        data: {
+          title: 'meals.delete.confirmation.title',
+          caption: 'meals.delete.confirmation.caption',
+          cancel: 'meals.delete.confirmation.cancel',
+          confirm: 'meals.delete.confirmation.confirm'
+        }
+      };
+
       it('should open a dialog and delete a meal on confirmation', (done) => {
         const deleteMealSpy = jest
           .spyOn(service, 'deleteMeal')
           .mockImplementation(() => of(true));
-        const openDialogSpy = jest
-          .spyOn(service['dialog'], 'open')
-          .mockImplementation(() => {
-            return {
-              afterClosed: () => of(true)
-            } as unknown as MatDialogRef<ConfirmationDialogComponent>;
-          });
+        openDialogSpy.mockReturnValue({
+          afterClosed: () => of(true)
+        } as unknown as MatDialogRef<ConfirmationDialogComponent>);
 
         service.deleteMealWithDialog(mockMeal).subscribe((deleted) => {
           expect(deleted).toBe(true);
 
           expect(openDialogSpy).toHaveBeenCalledWith(
             ConfirmationDialogComponent,
-            {
-              panelClass: 'delete-meal-dialog',
-              ariaLabel: 'meals.delete.dialog_label',
-              data: {
-                title: 'meals.delete.confirmation.title',
-                caption: 'meals.delete.confirmation.caption',
-                cancel: 'meals.delete.confirmation.cancel',
-                confirm: 'meals.delete.confirmation.confirm'
-              }
-            }
+            expectedDialogOptions
           );
           expect(deleteMealSpy).toHaveBeenCalledWith(mockMeal);
 
@@ -150,34 +149,20 @@ describe('MealsService', () => {
         });
 
         deleteMealSpy.mockRestore();
-        openDialogSpy.mockRestore();
       });
 
       it('should open a dialog and return false on cancel', (done) => {
         const deleteMealSpy = jest.spyOn(service, 'deleteMeal');
-        const openDialogSpy = jest
-          .spyOn(service['dialog'], 'open')
-          .mockImplementation(() => {
-            return {
-              afterClosed: () => of(false)
-            } as unknown as MatDialogRef<ConfirmationDialogComponent>;
-          });
+        openDialogSpy.mockReturnValue({
+          afterClosed: () => of(false)
+        } as unknown as MatDialogRef<ConfirmationDialogComponent>);
 
         service.deleteMealWithDialog(mockMeal).subscribe((deleted) => {
           expect(deleted).toBe(false);
 
           expect(openDialogSpy).toHaveBeenCalledWith(
             ConfirmationDialogComponent,
-            {
-              panelClass: 'delete-meal-dialog',
-              ariaLabel: 'meals.delete.dialog_label',
-              data: {
-                title: 'meals.delete.confirmation.title',
-                caption: 'meals.delete.confirmation.caption',
-                cancel: 'meals.delete.confirmation.cancel',
-                confirm: 'meals.delete.confirmation.confirm'
-              }
-            }
+            expectedDialogOptions
           );
           expect(deleteMealSpy).not.toHaveBeenCalled();
 
@@ -185,7 +170,6 @@ describe('MealsService', () => {
         });
 
         deleteMealSpy.mockRestore();
-        openDialogSpy.mockRestore();
       });
     });
 
@@ -237,6 +221,120 @@ describe('MealsService', () => {
           )
           .error(
             new ErrorEvent(`Meal with id ${mockMeal.id} could not be deleted.`),
+            { status: 404 }
+          );
+
+        consoleErrorSpy.mockClear();
+      });
+    });
+  });
+
+  describe('Edit Meal', () => {
+    const editedMeal = { ...mockMeal, name: 'edited name' };
+    describe('editMealWithDialog', () => {
+      let editMealSpy: jest.SpyInstance;
+      const expectedDialogOptions = {
+        panelClass: 'create-meal-dialog',
+        ariaLabel: 'meals.create.add_meal',
+        minWidth: '55%',
+        data: mockMeal
+      };
+
+      beforeEach(() => {
+        editMealSpy = jest
+          .spyOn(service, 'editMeal')
+          .mockImplementation(() => of(editedMeal));
+      });
+
+      afterEach(() => {
+        editMealSpy.mockRestore();
+      });
+      it('should open a create meal dialog to edit the meal', (done) => {
+        openDialogSpy.mockReturnValue({
+          afterClosed: () => of(editedMeal)
+        } as unknown as MatDialogRef<ConfirmationDialogComponent>);
+
+        service.editMealWithDialog(mockMeal).subscribe(() => {
+          expect(editMealSpy).toHaveBeenCalledWith(editedMeal, mockMeal.id);
+          expect(openDialogSpy).toHaveBeenCalledWith(
+            CreateMealDialogComponent,
+            expectedDialogOptions
+          );
+          done();
+        });
+      });
+
+      it('should open a create meal dialog to edit the meal and return null if unchanged', (done) => {
+        service.editMealWithDialog(mockMeal).subscribe((res) => {
+          expect(res).toBeNull();
+          expect(editMealSpy).not.toHaveBeenCalled();
+          expect(openDialogSpy).toHaveBeenCalledWith(
+            CreateMealDialogComponent,
+            expectedDialogOptions
+          );
+          done();
+        });
+      });
+    });
+
+    describe('editMeal', () => {
+      let mockMealEndpoint;
+      let editEndpointSpy: jest.SpyInstance;
+      beforeEach(() => {
+        mockMealEndpoint = {
+          getUrlForMethod: () => `/api/meals/${mockMeal.id}`
+        };
+        editEndpointSpy = jest
+          .spyOn(service['api'], 'getEndpoint')
+          .mockReturnValueOnce(mockMealEndpoint as unknown as Endpoint);
+      });
+
+      afterEach(() => editEndpointSpy.mockClear());
+
+      it('should patch a meal', (done) => {
+        service.editMeal(editedMeal, mockMeal.id).subscribe((response) => {
+          expect(response).toBe(editedMeal);
+          done();
+        });
+
+        httpTestingController
+          .expectOne((req) => {
+            if (
+              req.url === `/api/meals/${mockMeal.id}` &&
+              req.method === 'PATCH'
+            ) {
+              return JSON.stringify(req.body) === JSON.stringify(editedMeal);
+            }
+            return false;
+          })
+          .flush(editedMeal);
+      });
+
+      it('should handle an error when patching a meal', (done) => {
+        const consoleErrorSpy = jest
+          .spyOn(window.console, 'error')
+          .mockImplementation(jest.fn);
+
+        service.editMeal(editedMeal, mockMeal.id).subscribe((response) => {
+          expect(response).toBe(null);
+          expect(consoleErrorSpy).toHaveBeenCalledWith(
+            'Error trying to edit a meal:\nHttp failure response for /api/meals/a64e27e3-974f-4b3b-a416-fb0cc7761c18: 404 '
+          );
+          done();
+        });
+
+        httpTestingController
+          .expectOne((req) => {
+            if (
+              req.url === `/api/meals/${mockMeal.id}` &&
+              req.method === 'PATCH'
+            ) {
+              return JSON.stringify(req.body) === JSON.stringify(editedMeal);
+            }
+            return false;
+          })
+          .error(
+            new ErrorEvent(`Meal with id ${mockMeal.id} could not be edited.`),
             { status: 404 }
           );
 
