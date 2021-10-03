@@ -5,7 +5,9 @@ import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatGridListHarness } from '@angular/material/grid-list/testing';
 import { ITile, slotsList } from '@xantar/domain/models';
+import { SharedModule } from '../../../shared/shared.module';
 import { mockDay, mockDayConfig } from '../../mocks/schedule.mock';
+import { tilesPalette } from '../../utils/color.utils';
 import { TileComponent } from '../tile/tile.component';
 import { DayComponent } from './day.component';
 
@@ -17,7 +19,7 @@ describe('DayComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [DayComponent, TileComponent],
-      imports: [MatGridListModule],
+      imports: [MatGridListModule, SharedModule],
       providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
     }).compileComponents();
   });
@@ -58,6 +60,9 @@ describe('DayComponent', () => {
             return true;
           }
           if (tile.cols !== 1 || tile.rows !== 1) {
+            return true;
+          }
+          if (!tilesPalette.includes(tile.color as string)) {
             return true;
           }
           return false;

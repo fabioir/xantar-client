@@ -1,4 +1,10 @@
-import { IDay, IDayConfig, ISchedule, slotsList } from '@xantar/domain/models';
+import {
+  IDay,
+  IDayConfig,
+  ISchedule,
+  ITile,
+  slotsList
+} from '@xantar/domain/models';
 import { mockMeal } from '../../meals/components/meals-list/meals-list.mock';
 
 export const mockDayConfig: IDayConfig = {
@@ -21,4 +27,14 @@ export const mockDay: IDay = {
 export const mockSchedule: ISchedule = {
   id: 'mock-schedule-id',
   days: [mockDay, mockDay, mockDay, mockDay, mockDay, mockDay, mockDay]
+};
+
+export const mockTile: ITile = {
+  config: {
+    slot: slotsList.breakfast,
+    meal: mockMeal
+  },
+  cols: 1,
+  rows: 1,
+  color: '#000000'
 };

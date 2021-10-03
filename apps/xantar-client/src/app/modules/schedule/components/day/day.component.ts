@@ -5,6 +5,7 @@ import {
   OnChanges
 } from '@angular/core';
 import { IDay, ITile } from '@xantar/domain/models';
+import { getColors } from '../../utils/color.utils';
 
 @Component({
   selector: 'xantar-day',
@@ -22,8 +23,14 @@ export class DayComponent implements OnChanges {
   }
 
   private _buildTiles(day: IDay): ITile[] {
-    return day.config.map((conf, _i, confArray) => {
-      return { config: conf, cols: 1, rows: Math.floor(5 / confArray.length) };
+    const colors = getColors(day?.config?.length || 5);
+    return day.config.map((conf, index, confArray) => {
+      return {
+        config: conf,
+        cols: 1,
+        rows: Math.floor(5 / confArray.length),
+        color: colors[index]
+      };
     });
   }
 }

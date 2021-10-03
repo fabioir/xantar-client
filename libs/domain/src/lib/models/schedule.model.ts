@@ -20,4 +20,5 @@ export interface ITile {
   config: IDayConfig;
   cols: number;
   rows: number;
+  color?: string;
 }

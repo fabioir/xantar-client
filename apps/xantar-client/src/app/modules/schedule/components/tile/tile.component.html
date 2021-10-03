@@ -1,1 +1,28 @@
-<p>tile works!</p>
+<div
+  class="tile-container"
+  *ngIf="tile?.config?.meal as meal"
+  (mouseenter)="hovered = true"
+  (mouseleave)="hovered = false"
+  [ngStyle]="{ background: tile.color || 'transparent' }"
+>
+  <div class="title-container">
+    <span class="mat-typography">{{ meal.name }}</span>
+  </div>
+  <div class="content">
+    <ng-container *ngIf="!meal?.imageThumb || hovered; else noHovered">
+      <div class="description-container">
+        <p class="mat-typography">
+          {{ meal.description }}
+        </p>
+      </div>
+    </ng-container>
+    <ng-template #noHovered>
+      <div class="image-container">
+        <img
+          alt="Meal picture"
+          [src]="(meal?.imageThumb | b64Img) || '/assets/pics/default-meal.jpg'"
+        />
+      </div>
+    </ng-template>
+  </div>
+</div>

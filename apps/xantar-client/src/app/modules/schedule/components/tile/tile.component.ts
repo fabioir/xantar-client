@@ -9,4 +9,6 @@ import { ITile } from '@xantar/domain/models';
 })
 export class TileComponent {
   @Input() tile!: ITile;
+
+  public hovered = false;
 }
