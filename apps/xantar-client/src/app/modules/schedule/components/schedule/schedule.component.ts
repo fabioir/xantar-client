@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
 import { ISchedule } from '@xantar/domain/models';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ToolbarService } from '../../../shared/services/toolbar/toolbar.service';
 import { ScheduleService } from '../../services/schedule/schedule.service';
 
@@ -27,6 +27,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   public fetchSchedule() {
-    this.schedule$ = of(this.scheduleService.generateSchedule());
+    this.schedule$ = this.scheduleService.generateSchedule();
   }
 }
