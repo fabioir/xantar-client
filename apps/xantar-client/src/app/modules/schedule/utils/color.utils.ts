@@ -1,4 +1,3 @@
-// const tilesPalette: string[] = ['#B5EAEA', '#EDF6E5', '#FFBCBC', '#F38BA0'];
 export const tilesPalette: string[] = [
   '#f44336',
   '#e91e63',
