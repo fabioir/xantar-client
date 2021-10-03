@@ -1,0 +1,7 @@
+@import '../variables.scss';
+
+:host {
+  .router-outlet-container {
+    height: calc(100% - #{$toolbar-height});
+  }
+}

@@ -37,7 +37,12 @@
     }
   },
   "schedule": {
-    "navigate": "Go to schedule"
+    "navigate": "Go to schedule",
+    "title": "Schedule",
+    "error": {
+      "message": "The schedule could not be loaded",
+      "reload_tooltip": "Click to retry"
+    }
   },
   "shared": {
     "cancel": "Cancel",

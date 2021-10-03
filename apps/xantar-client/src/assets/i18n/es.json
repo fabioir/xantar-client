@@ -37,7 +37,12 @@
     }
   },
   "schedule": {
-    "navigate": "Ir a planificación"
+    "navigate": "Ir a planificación",
+    "title": "Planificación",
+    "error": {
+      "message": "No se ha podido cargar la planificación",
+      "reload_tooltip": "Haga click para reintentar"
+    }
   },
   "shared": {
     "cancel": "Cancelar",
