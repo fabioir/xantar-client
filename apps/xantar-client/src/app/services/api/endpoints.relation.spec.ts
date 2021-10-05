@@ -3,7 +3,7 @@ import {
   HttpMethodEnum,
   IXantarEnvironment
 } from '@xantar/domain/models';
-import { MealsEndpoint } from './endpoints.relation';
+import { MealsEndpoint, SchedulesEndpoint } from './endpoints.relation';
 
 describe('Endpoints relation', () => {
   const mockEnvironment: IXantarEnvironment = {
@@ -45,6 +45,7 @@ describe('Endpoints relation', () => {
       expect(queryParams[1]).toBe('pageCount');
     });
   });
+
   describe('MealsEndpoint', () => {
     let meals: MealsEndpoint;
 
@@ -106,6 +107,49 @@ describe('Endpoints relation', () => {
       expect(editUrl).toBeTruthy();
       expect(deleteUrl).toBe(meals.getUrl() + '/mealId');
       expect(editUrl).toBe(meals.getUrl() + '/mealId');
+    });
+  });
+
+  describe('SchedulesEndpoint', () => {
+    let schedules: SchedulesEndpoint;
+
+    beforeEach(() => {
+      schedules = new SchedulesEndpoint(mockEnvironment);
+    });
+
+    it('should have methods', () => {
+      const schedulesMethods = schedules.getMethods();
+
+      expect(schedulesMethods.length).toBe(1);
+      expect(schedulesMethods[0]).toBe(HttpMethodEnum.POST);
+    });
+
+    it('should have url', () => {
+      const schedulesUrl = schedules.getUrl();
+
+      expect(schedulesUrl).toBe(`${mockEnvironment.baseHref}/schedules`);
+    });
+
+    it('should have no query parameters', () => {
+      const schedulesQueryParameters = schedules.getQueryParams();
+
+      expect(schedulesQueryParameters.length).toBe(0);
+    });
+
+    it('should return url for Post method', () => {
+      const urlForGet = schedules.getUrlForMethod(HttpMethodEnum.POST);
+
+      expect(urlForGet).toBe(`${mockEnvironment.baseHref}/schedules`);
+    });
+
+    it('should return null for != Post methods', () => {
+      let url = null;
+      for (const method in HttpMethodEnum) {
+        if (method !== HttpMethodEnum.POST) {
+          url = schedules.getUrlForMethod(method as unknown as HttpMethodEnum);
+        }
+        expect(url).toBeNull();
+      }
     });
   });
 });

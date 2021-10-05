@@ -54,7 +54,7 @@ describe('DayComponent', () => {
         fixture.detectChanges();
         const tiles: ITile[] = component['_buildTiles'](mockDay);
         expect(tiles).toBeTruthy();
-        expect(tiles.length).toBe(mockDay.config.length);
+        expect(tiles.length).toBe(mockDay.configurations.length);
         const deviatingTile: boolean = tiles.some((tile: ITile) => {
           if (!tile.config) {
             return true;
@@ -75,7 +75,7 @@ describe('DayComponent', () => {
         fixture.detectChanges();
         const mock2MealsDay = {
           ...mockDay,
-          config: [
+          configurations: [
             { ...mockDayConfig, slot: slotsList.breakfast },
             { ...mockDayConfig, slot: slotsList.snack1 }
           ]

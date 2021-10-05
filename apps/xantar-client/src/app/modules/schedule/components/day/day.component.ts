@@ -23,8 +23,8 @@ export class DayComponent implements OnChanges {
   }
 
   private _buildTiles(day: IDay): ITile[] {
-    const colors = getColors(day?.config?.length || 5);
-    return day.config.map((conf, index, confArray) => {
+    const colors = getColors(day?.configurations?.length || 5);
+    return day.configurations.map((conf, index, confArray) => {
       return {
         config: conf,
         cols: 1,

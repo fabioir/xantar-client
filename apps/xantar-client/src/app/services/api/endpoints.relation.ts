@@ -30,3 +30,20 @@ export class MealsEndpoint extends Endpoint {
     }
   }
 }
+
+export class SchedulesEndpoint extends Endpoint {
+  constructor(environment: IXantarEnvironment) {
+    const schedulesUrl = `${environment.baseHref}/schedules`;
+    const schedulesMethods = [HttpMethodEnum.POST];
+    super(schedulesUrl, schedulesMethods);
+  }
+
+  public getUrlForMethod(method: HttpMethodEnum) {
+    switch (method) {
+      case HttpMethodEnum.POST:
+        return this.getUrl();
+      default:
+        return null as unknown as string;
+    }
+  }
+}
