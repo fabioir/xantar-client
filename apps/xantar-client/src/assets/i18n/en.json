@@ -1,0 +1,52 @@
+{
+  "meals": {
+    "meals_list": "Meals list",
+    "navigate": "Go to meals list",
+    "error": {
+      "message": "Meals list could not be loaded",
+      "reload_tooltip": "Click to retry"
+    },
+    "create": {
+      "add_meal": "Add new meal",
+      "name": "Name",
+      "description": "Description",
+      "image": "Upload image",
+      "slots": "Slots",
+      "attributes": "Attributes"
+    },
+    "slots": {
+      "BREAKFAST": "Breakfast",
+      "SNACK1": "Morning snack",
+      "LUNCH": "Lunch",
+      "SNACK2": "Afternoon snack",
+      "DINNER": "Dinner"
+    },
+    "delete": {
+      "button_tooltip": "Delete meal",
+      "dialog_label": "Confirm meal deletion dialog",
+      "confirmation": {
+        "title": "Are you sure you want to delete {{meal}}?",
+        "caption": "This action cannot be undone",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    },
+    "edit": {
+      "button_tooltip": "Edit meal",
+      "edit_meal": "Edit {{mealName}}"
+    }
+  },
+  "schedule": {
+    "navigate": "Go to schedule",
+    "title": "Schedule",
+    "error": {
+      "message": "The schedule could not be loaded",
+      "reload_tooltip": "Click to retry"
+    }
+  },
+  "shared": {
+    "cancel": "Cancel",
+    "create": "Create",
+    "edit": "Edit"
+  }
+}

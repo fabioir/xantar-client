@@ -1,0 +1,48 @@
+$title-height: 35px;
+$image-margins: 2px;
+
+:host {
+  background-color: rgba(0, 0, 0, 0.055);
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  div.tile-container {
+    height: 100%;
+    border-radius: 4px;
+    div.title-container {
+      display: flex;
+      height: $title-height;
+      span {
+        margin: auto 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 15px;
+      }
+    }
+    div.content {
+      height: calc(100% - #{$title-height} - #{$image-margins});
+      div.description-container {
+        height: 100%;
+        margin: 0 10px 5px 10px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        word-break: break-word;
+        p {
+          height: 100%;
+          margin: 0;
+        }
+      }
+      div.image-container {
+        height: 100%;
+        margin: 0 $image-margins $image-margins $image-margins;
+        img {
+          height: 100%;
+          width: 100%;
+          box-shadow: 0 0 8px 8px white inset;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}

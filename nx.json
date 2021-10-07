@@ -27,6 +27,9 @@
     ]
   },
   "projects": {
+    "domain": {
+      "tags": []
+    },
     "xantar-client": {
       "tags": []
     },
