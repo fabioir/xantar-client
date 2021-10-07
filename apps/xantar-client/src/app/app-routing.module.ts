@@ -5,14 +5,19 @@ const routes: Routes = [
   {
     path: 'meals',
     loadChildren: () =>
-      import('./modules/meals/meals.module').then((m) => m.MealsModule),
+      import('./modules/meals/meals.module').then((m) => m.MealsModule)
   },
-  { path: '', redirectTo: '/meals', pathMatch: 'full' },
+  {
+    path: 'schedule',
+    loadChildren: () =>
+      import('./modules/schedule/schedule.module').then((m) => m.ScheduleModule)
+  },
+  { path: '', redirectTo: '/meals', pathMatch: 'full' }
 ];
 
 @NgModule({
   declarations: [],
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

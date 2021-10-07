@@ -4,13 +4,14 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { SharedModule } from './modules/shared/shared.module';
+import { getTranslocoModule } from './transloco-testing.module';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [RouterTestingModule, SharedModule],
+      imports: [RouterTestingModule, SharedModule, getTranslocoModule()],
       providers: [{ provide: MATERIAL_SANITY_CHECKS, useValue: false }]
     }).compileComponents();
   });

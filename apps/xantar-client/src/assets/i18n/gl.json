@@ -1,6 +1,7 @@
 {
   "meals": {
     "meals_list": "Lista de comidas",
+    "navigate": "Ir á lista de comidas",
     "error": {
       "message": "A lista de comidas non se puido cargar",
       "reload_tooltip": "Faga click para reintentar"
@@ -33,6 +34,14 @@
     "edit": {
       "button_tooltip": "Editar comida",
       "edit_meal": "Editar {{mealName}}"
+    }
+  },
+  "schedule": {
+    "navigate": "Ir á planificación",
+    "title": "Planificación",
+    "error": {
+      "message": "A planificación non se puido cargar",
+      "reload_tooltip": "Faga click para reintentar"
     }
   },
   "shared": {

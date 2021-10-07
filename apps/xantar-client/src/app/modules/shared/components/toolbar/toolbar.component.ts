@@ -5,8 +5,10 @@ import {
   OnDestroy,
   OnInit
 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { IIconButtonSettings } from '@xantar/domain/models';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { ToolbarService } from '../../services/toolbar/toolbar.service';
 
 @Component({
@@ -20,10 +22,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
   public title = 'Xantar';
   public addButtonSettings!: IIconButtonSettings;
+  public showScheduleLink = true;
+  public showListLink = true;
 
   constructor(
     private toolbarService: ToolbarService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -39,9 +44,28 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.cd.markForCheck();
       })
     );
+    this.subscriptions.add(this._subscribeToRoute(this.router.events));
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+  }
+
+  private _subscribeToRoute(routerEvents: Observable<unknown>): Subscription {
+    return routerEvents
+      .pipe(
+        filter((event: unknown) => event instanceof NavigationEnd),
+        map((event: unknown) => (event as NavigationEnd).url)
+      )
+      .subscribe((url: string) => {
+        if (url === '/meals') {
+          this.showListLink = false;
+          this.showScheduleLink = true;
+        } else if (url === '/schedule') {
+          this.showListLink = true;
+          this.showScheduleLink = false;
+        }
+        this.cd.markForCheck();
+      });
   }
 }

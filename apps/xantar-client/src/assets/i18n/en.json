@@ -1,6 +1,7 @@
 {
   "meals": {
     "meals_list": "Meals list",
+    "navigate": "Go to meals list",
     "error": {
       "message": "Meals list could not be loaded",
       "reload_tooltip": "Click to retry"
@@ -33,6 +34,14 @@
     "edit": {
       "button_tooltip": "Edit meal",
       "edit_meal": "Edit {{mealName}}"
+    }
+  },
+  "schedule": {
+    "navigate": "Go to schedule",
+    "title": "Schedule",
+    "error": {
+      "message": "The schedule could not be loaded",
+      "reload_tooltip": "Click to retry"
     }
   },
   "shared": {

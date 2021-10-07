@@ -5,5 +5,10 @@
     display: flex;
     justify-content: space-between;
     height: $toolbar-height;
+    div.buttons-container {
+      .mat-icon-button {
+        margin-left: 10px;
+      }
+    }
   }
 }
