@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { EndpointRelation, Endpoint } from '@xantar/domain/models';
+import { Endpoint, EndpointRelation } from '@xantar/domain/models';
 import { environment } from '../../../environments/environment';
-import { MealsEndpoint } from './endpoints.relation';
+import { MealsEndpoint, SchedulesEndpoint } from './endpoints.relation';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,8 @@ export class ApiService {
   private endpoints: EndpointRelation = {};
 
   public init() {
-    this.endpoints.meals = new MealsEndpoint(
-      environment
-    ) as unknown as Endpoint;
+    this.endpoints.meals = new MealsEndpoint(environment);
+    this.endpoints.schedules = new SchedulesEndpoint(environment);
   }
 
   public getEndpoint(endpointName: string): Endpoint {

@@ -15,7 +15,7 @@ export const mockDayConfig: IDayConfig = {
 export const mockDay: IDay = {
   id: 'mock-day-id',
   timestamp: 1633207107387,
-  config: [
+  configurations: [
     { ...mockDayConfig, slot: slotsList.breakfast },
     { ...mockDayConfig, slot: slotsList.snack1 },
     { ...mockDayConfig, slot: slotsList.lunch },

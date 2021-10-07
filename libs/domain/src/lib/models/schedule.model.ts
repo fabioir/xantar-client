@@ -8,7 +8,7 @@ export interface ISchedule {
 export interface IDay {
   id?: string;
   timestamp: number;
-  config: IDayConfig[];
+  configurations: IDayConfig[];
 }
 
 export interface IDayConfig {
